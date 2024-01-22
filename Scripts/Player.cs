@@ -5,7 +5,7 @@ public partial class Player : CharacterBody2D
 {
 	// Vitesse de déplacement du joueur.
 	[Export]
-	public float Speed = 350.0f;
+	public float Speed = 300.0f;
 	
 	// Champ de vision actuel du joueur.
 	private float vitality;

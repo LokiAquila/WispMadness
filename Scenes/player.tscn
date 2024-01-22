@@ -62,5 +62,5 @@ texture = SubResource("GradientTexture2D_vimxs")
 [node name="PlayerRayCast" type="RayCast2D" parent="."]
 
 [node name="LightTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.6
 autostart = true
