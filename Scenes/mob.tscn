@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpg8q8x8adh1"]
+
+[ext_resource type="Script" path="res://Ennemis/Scripts/mob.cs" id="1_ubnsq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ija8m"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Mob" type="Node2D"]
+script = ExtResource("1_ubnsq")
+
+[node name="MobSprites" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ija8m")
+animation = &"walk"
+
+[node name="MobCollision" type="CollisionShape2D" parent="."]

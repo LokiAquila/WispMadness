@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://c57vnwee3irx4"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_15b5q"]
+[ext_resource type="Texture2D" uid="uid://cixbn8oko1mvo" path="res://icon.svg" id="2_tgbm2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4eiwt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tgbm2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_tgbm2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tgbm2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_tgbm2")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lan6p"]
+radius = 62.0
+height = 126.0
+
+[sub_resource type="Gradient" id="Gradient_nxq84"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vimxs"]
+gradient = SubResource("Gradient_nxq84")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.866379, 0.146552)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_15b5q")
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4eiwt")
+animation = &"idle"
+
+[node name="PlayerCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_lan6p")
+
+[node name="PlayerLight" type="PointLight2D" parent="."]
+position = Vector2(1, 1)
+scale = Vector2(2.63202, 2.63202)
+energy = 0.7
+texture = SubResource("GradientTexture2D_vimxs")
+
+[node name="PlayerRayCast" type="RayCast2D" parent="."]
+
+[node name="LightTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
