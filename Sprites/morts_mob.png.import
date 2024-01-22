@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bt7ioqgoxfapi"
-path="res://.godot/imported/sprites_mob.png-2284aaf49f413eded4252bcf5dd13715.ctex"
+uid="uid://dfa1ijjcxbqos"
+path="res://.godot/imported/morts_mob.png-dddb56f5046232dc44224d8616afadc4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/sprites_mob.png"
-dest_files=["res://.godot/imported/sprites_mob.png-2284aaf49f413eded4252bcf5dd13715.ctex"]
+source_file="res://Sprites/morts_mob.png"
+dest_files=["res://.godot/imported/morts_mob.png-dddb56f5046232dc44224d8616afadc4.ctex"]
 
 [params]
 
