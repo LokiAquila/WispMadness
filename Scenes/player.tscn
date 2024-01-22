@@ -270,3 +270,5 @@ texture = SubResource("GradientTexture2D_vimxs")
 [node name="LightTimer" type="Timer" parent="."]
 wait_time = 0.6
 autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
