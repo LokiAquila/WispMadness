@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmgnqnqkup5gk"]
+[gd_scene load_steps=7 format=3 uid="uid://c57vnwee3irx4"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_15b5q"]
 [ext_resource type="Texture2D" uid="uid://cixbn8oko1mvo" path="res://icon.svg" id="2_tgbm2"]
@@ -56,6 +56,7 @@ shape = SubResource("CapsuleShape2D_lan6p")
 [node name="PlayerLight" type="PointLight2D" parent="."]
 position = Vector2(1, 1)
 scale = Vector2(2.63202, 2.63202)
+energy = 0.7
 texture = SubResource("GradientTexture2D_vimxs")
 
 [node name="PlayerRayCast" type="RayCast2D" parent="."]

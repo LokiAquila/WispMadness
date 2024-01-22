@@ -20,6 +20,6 @@ script = ExtResource("1_ubnsq")
 
 [node name="MobSprites" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ija8m")
-animation = &"death"
+animation = &"walk"
 
 [node name="MobCollision" type="CollisionShape2D" parent="."]

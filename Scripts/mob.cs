@@ -15,20 +15,16 @@ public partial class Mob : RigidBody2D
 
     }
 
-    public override void _Process(float delta) // Utilisez 'float' au lieu de 'double'
+    public override void _Process(double delta)
     {
-        // Vérifier si le joueur existe toujours
         if (player != null)
         {
-            // Calculer la direction vers le joueur
             Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
-
-            // Déplacer le Mob vers le joueur
-            GlobalPosition += direction * speed * delta;
+            GlobalPosition += direction * speed * (float)delta;
         }
     }
 
-    // Fonction pour définir une position aléatoire en dehors de la vue du joueur
+
     private void SetRandomPosition()
     {
         // Récupérer la taille de l'écran
@@ -63,13 +59,13 @@ public partial class Mob : RigidBody2D
 
     private void _RemoveMob(float delay)
     {
-        // Utilisez la méthode CallDeferred pour supprimer le Mob après le délai spécifié
         CallDeferred("_DoRemoveMob", delay);
     }
 
     private void _DoRemoveMob(float delay)
     {
-        QueueFree(); // Supprimez le Mob de la scène après l'animation de mort
+        QueueFree();
     }
 
 }
+
