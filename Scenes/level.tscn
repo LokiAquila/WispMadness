@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ch0md7meuanh2"]
+[gd_scene load_steps=13 format=3 uid="uid://ch0md7meuanh2"]
 
 [ext_resource type="Texture2D" uid="uid://dw5ahfafodo11" path="res://Texture/map/TX Plant.png" id="1_3lna8"]
 [ext_resource type="Texture2D" uid="uid://q5mncrvd2n2t" path="res://Texture/map/TX Props.png" id="2_y7lhq"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://cn5rc1fnhv03s" path="res://Texture/map/TX Struct.png" id="4_scv7a"]
 [ext_resource type="Texture2D" uid="uid://d0iyk6qbg52ic" path="res://Texture/map/TX Tileset Wall.png" id="5_k7mt8"]
 [ext_resource type="PackedScene" uid="uid://c57vnwee3irx4" path="res://Scenes/player.tscn" id="6_irmk0"]
-[ext_resource type="PackedScene" uid="uid://dnoxfj5cwtqby" path="res://Scenes/bullet.tscn" id="7_vyvfb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_22bxq"]
 texture = ExtResource("1_3lna8")
@@ -3793,8 +3792,6 @@ layer_8/tile_data = PackedInt32Array(131095, 1179649, 30, 196631, 1179649, 31, 1
 
 [node name="Player" parent="." instance=ExtResource("6_irmk0")]
 scale = Vector2(0.3, 0.3)
-ProjectileScene = ExtResource("7_vyvfb")
-shootingCooldown = 0.15
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0, 0.0117647, 0.0470588, 1)
