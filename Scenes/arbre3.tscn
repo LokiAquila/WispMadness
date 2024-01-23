@@ -1,13 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://df8tlrkg483aw"]
 
-[ext_resource type="Script" path="res://Scripts/arbre.gd" id="1_lknoq"]
+[ext_resource type="Script" path="res://Scripts/arbre.gd" id="1_g360p"]
 [ext_resource type="Texture2D" uid="uid://bmmlpabs17set" path="res://Texture/map/TX Three3.png" id="2_h7jvc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fgu0u"]
 radius = 4.0
 
 [node name="Arbre" type="Area2D"]
-script = ExtResource("1_lknoq")
+collision_layer = 64
+collision_mask = 35
+script = ExtResource("1_g360p")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(46.5833, -30.4596)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=40 format=3 uid="uid://c57vnwee3irx4"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_15b5q"]
-[ext_resource type="PackedScene" path="res://Scenes/bullet.tscn" id="2_awsjs"]
+[ext_resource type="PackedScene" uid="uid://bw74et15s0gc3" path="res://Scenes/bullet.tscn" id="2_awsjs"]
 [ext_resource type="Texture2D" uid="uid://bg8qnevyiwg8n" path="res://Sprites/attack_player.png" id="2_c3dsr"]
 [ext_resource type="Texture2D" uid="uid://077krtmxe3fo" path="res://Sprites/walk_player.png" id="3_73ap6"]
 [ext_resource type="Texture2D" uid="uid://bolv3jqkmpmm1" path="res://Sprites/death_player.png" id="4_62sxl"]

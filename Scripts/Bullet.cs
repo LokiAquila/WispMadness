@@ -21,6 +21,9 @@ public partial class Bullet : Area2D
 		Player player = GetNode<Player>("../Player");
 		PlayerVelocity = player.Velocity;
 		
+		BodyEntered += OnAreaEntered;
+		
+		
 		_timer = new Timer();
 		_timer.WaitTime = Lifespan;
 		_timer.OneShot = true;
@@ -40,5 +43,15 @@ public partial class Bullet : Area2D
 	private void _OnTimerTimeout()
 	{
 		QueueFree();
+	}
+
+	private void OnAreaEntered(Node2D body)
+	{
+		if (body.Name != "Player")
+		{
+			GD.Print("Collision avec " + body.Name + " !");
+			QueueFree();
+		}
+
 	}
 }
