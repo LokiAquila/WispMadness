@@ -44,6 +44,9 @@ public partial class Player : CharacterBody2D
 	
 	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
 	
+	[Export]
+	public bool in_menu { get; set; } = false;
+	
 	[Signal]
 	public delegate void PlayerDeathEventHandler(Player player);
 
@@ -78,15 +81,18 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 direction =  Input.GetVector("Gauche", "Droite", "Haut", "Bas");
-		Velocity = direction * Speed;
-		MoveAndSlide();
+		if (!in_menu)
+		{
+			Vector2 direction = Input.GetVector("Gauche", "Droite", "Haut", "Bas");
+			Velocity = direction * Speed;
+			MoveAndSlide();
+		}
 	}
 
 	public override void _Process(double delta)
 	{
 		// Vérifiez si le joueur peut tirer en fonction du délai entre les tirs
-		if (Input.IsActionJustPressed("Attaque") && shootingTimer >= shootingCooldown)
+		if (Input.IsActionJustPressed("Attaque") && shootingTimer >= shootingCooldown && !in_menu)
 		{
 			Shoot();
 			shootingTimer = 0;	 // Réinitialisez le compteur de temps après avoir tiré
