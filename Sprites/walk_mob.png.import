@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://077krtmxe3fo"
-path="res://.godot/imported/marches_player.png-8ae01606be627fd238663ed698f29cbd.ctex"
+uid="uid://br35itveppfoj"
+path="res://.godot/imported/walk_mob.png-577ee9062f96900c06d35c4d5fbcb808.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/marches_player.png"
-dest_files=["res://.godot/imported/marches_player.png-8ae01606be627fd238663ed698f29cbd.ctex"]
+source_file="res://Sprites/walk_mob.png"
+dest_files=["res://.godot/imported/walk_mob.png-577ee9062f96900c06d35c4d5fbcb808.ctex"]
 
 [params]
 
