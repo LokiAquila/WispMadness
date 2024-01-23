@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://c57vnwee3irx4"]
+[gd_scene load_steps=39 format=3 uid="uid://clbq0g70h21qw"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_15b5q"]
 [ext_resource type="Texture2D" uid="uid://bg8qnevyiwg8n" path="res://Sprites/attaques_player.png" id="2_c3dsr"]
@@ -233,9 +233,9 @@ animations = [{
 "speed": 14.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lan6p"]
-radius = 62.0
-height = 126.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4cbv4"]
+radius = 18.0
+height = 44.0
 
 [sub_resource type="Gradient" id="Gradient_nxq84"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -252,18 +252,22 @@ fill_to = Vector2(0.866379, 0.146552)
 script = ExtResource("1_15b5q")
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -2.98023e-08)
+scale = Vector2(1.57812, 1.51563)
 sprite_frames = SubResource("SpriteFrames_4eiwt")
 animation = &"mort"
 frame_progress = 0.169537
 
 [node name="PlayerCollision" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_lan6p")
+position = Vector2(1, 29)
+shape = SubResource("CapsuleShape2D_4cbv4")
 
 [node name="PlayerLight" type="PointLight2D" parent="."]
 position = Vector2(1, 1)
 scale = Vector2(2.63202, 2.63202)
 energy = 0.7
 texture = SubResource("GradientTexture2D_vimxs")
+metadata/_edit_lock_ = true
 
 [node name="PlayerRayCast" type="RayCast2D" parent="."]
 
@@ -272,3 +276,4 @@ wait_time = 0.6
 autostart = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
