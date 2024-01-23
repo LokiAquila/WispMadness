@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://baop74k4pd7kr"]
+
+[ext_resource type="Script" path="res://Scripts/Orb.cs" id="1_qbpmc"]
+
+[sub_resource type="Gradient" id="Gradient_wgb30"]
+offsets = PackedFloat32Array(0.375, 1)
+colors = PackedColorArray(0, 0.670588, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_33dod"]
+gradient = SubResource("Gradient_wgb30")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.831897, 0.163793)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ryhw8"]
+radius = 29.0172
+
+[node name="Orb" type="Area2D" groups=["orb"]]
+collision_layer = 8
+script = ExtResource("1_qbpmc")
+InitialScale = Vector2(0.25, 0.25)
+metadata/_edit_group_ = true
+
+[node name="SpriteOrb" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_33dod")
+
+[node name="CollisionOrb" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ryhw8")
+
+[node name="OrbTimer" type="Timer" parent="."]

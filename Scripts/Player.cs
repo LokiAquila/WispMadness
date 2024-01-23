@@ -26,20 +26,22 @@ public partial class Player : CharacterBody2D
 	// Timer pour gérer la diminution de la lumière.
 	private Timer lightTimer;
 	
-	private Camera2D camera;
+	public Camera2D camera;
 
 	// Déplacement du joueur.
 	
 	private Vector2 _screenSize; // Size of the game window.
 	
 	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
+	
+	[Signal]
+	public delegate void PlayerDeathEventHandler(Player player);
 
 	public override void _Ready()
 	{
 		_screenSize = GetViewportRect().Size;
 		// Récupérer les nœuds enfants.
 		playerLight = GetNode<PointLight2D>("PlayerLight");
-		
 		
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
 		
@@ -57,10 +59,8 @@ public partial class Player : CharacterBody2D
 		camera.PositionSmoothingSpeed = 10;
 
 		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout".
-		lightTimer = GetNode<Timer>("LightTimer");
-		var lightTimerCallable = new Callable(this, nameof(OnLightTimerTimeout));
-		lightTimer.Connect("timeout", lightTimerCallable);
-		
+		lightTimer.Timeout += OnLightTimerTimeout;
+
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -102,7 +102,7 @@ public partial class Player : CharacterBody2D
 	public void OnLightTimerTimeout()
 	{
 		// Diminuer progressivement l'échelle de la lumière du joueur lorsque le timer expire.
-		vitality -= 0.01f; // Réduire l'échelle de 10%
+		vitality -= 0.03f; // Réduire l'échelle de 10%
 
 		// Arrêter le timer lorsque la lumière est épuisée.
 		if (vitality <= 0)
@@ -115,5 +115,27 @@ public partial class Player : CharacterBody2D
 		{
 			playerLight.TextureScale = vitality;
 		}
+	}
+	
+	public void OnOrbPickedUp(Orb orb, float orbVitality)
+	{
+		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
+		GD.Print("Gob mon orb");
+		vitality = Mathf.Min(vitality + orbVitality, 1);
+		playerLight.TextureScale = vitality;
+	}
+	
+	public void OnMobContact(Mob mob)
+	{
+		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
+		GD.Print("MARCHE STP");
+		vitality = (float) Mathf.Max(vitality - 0.5, 0);
+		playerLight.TextureScale = vitality;
+	}
+
+	public void Kill()
+	{
+		playerSprite.Play("death_player");
+		EmitSignal(nameof(PlayerDeathEventHandler), this); // Émettre le signal
 	}
 }
