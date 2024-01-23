@@ -50,15 +50,13 @@ public partial class Bullet : Area2D
 	{
 		if (body.Name != "Player")
 		{
-			GD.Print("Collision avec " + body.Name + " !");
 			QueueFree();
 		}
 	}
 	
 	private void OnAreaEntered(Area2D area)
 	{
-		GD.Print("Collision avec " + area.Name + " !");
-		if (area.Name == "Mob")
+		if (area is Mob)
 		{
 			QueueFree();
 		}

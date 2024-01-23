@@ -142,7 +142,6 @@ public partial class Player : CharacterBody2D
 		if (playerSprite.Animation == "attack_player")
 		{
 			playerSprite.Play("walk_player");
-			Console.WriteLine("Changement d'animation");
 		}
 		
 	}
@@ -150,15 +149,13 @@ public partial class Player : CharacterBody2D
 	public void OnOrbPickedUp(Orb orb, float orbVitality)
 	{
 		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
-		GD.Print("Gob mon orb : " + orbVitality);
 		vitality = Mathf.Min(vitality + orbVitality, 1);
 		playerLight.TextureScale = vitality;
 	}
 	
-	public void OnMobContact(Mob mob)
+	public void OnMobContact()
 	{
 		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
-		GD.Print("MARCHE STP");
 		vitality = (float) Mathf.Max(vitality - 0.5, 0);
 		playerLight.TextureScale = vitality;
 	}
