@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 
 public partial class Player : CharacterBody2D
@@ -13,6 +14,9 @@ public partial class Player : CharacterBody2D
 	
 	[Export]
 	public double shootingCooldown = 0.3; // Délai en secondes entre chaque tir
+
+	//Liste des éléments de la carte interactibles par le joueur
+	private readonly List<IPlayerInteractable> interactables = new();
 	
 	// Champ de vision actuel du joueur.
 	private float vitality;
@@ -28,6 +32,12 @@ public partial class Player : CharacterBody2D
 	
 	private Camera2D camera;
 
+	//Le conteneur du texte d'interaction
+	private HBoxContainer labelContainer;
+
+	//Le texte d'interaction
+	private Label interactLabel;
+
 	// Déplacement du joueur.
 	
 	private Vector2 _screenSize; // Size of the game window.
@@ -42,6 +52,8 @@ public partial class Player : CharacterBody2D
 		
 		
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
+		labelContainer = GetNode<HBoxContainer>("MarginContainer/Interact");
+		interactLabel = labelContainer.GetNode<Label>("Label");
 		
 		// Initialiser le champ de vision du joueur.
 		vitality = 1; // 1 pour 100% de l'échelle initiale
@@ -77,6 +89,12 @@ public partial class Player : CharacterBody2D
 		{
 			Shoot();
 			shootingTimer = 0;	 // Réinitialisez le compteur de temps après avoir tiré
+		}
+
+		if(Input.IsActionJustPressed("Interaction") && interactables.Count != 0)
+		{
+			IPlayerInteractable interactable = interactables[0];
+			interactable.Interact(this);
 		}
 		
 		if (shootingTimer < shootingCooldown)
@@ -126,4 +144,37 @@ public partial class Player : CharacterBody2D
 		}
 		
 	}
+
+	public void AddInteractable(IPlayerInteractable interactable)
+	{
+		if(interactables.Contains(interactable))
+		{
+			return;
+		}
+
+		if(interactables.Count == 0)
+		{
+			labelContainer.Visible = true;
+			interactLabel.Text = interactable.InteractionName;
+		}
+
+		interactables.Add(interactable);
+	}
+	
+	public void RemoveInteractable(IPlayerInteractable interactable)
+	{
+		if(!interactables.Contains(interactable))
+		{
+			return;
+		}
+
+		if(interactables.Count == 1)
+		{
+			labelContainer.Visible = false;
+			interactLabel.Text = "";
+		}
+
+		interactables.Remove(interactable);
+	}
+
 }
