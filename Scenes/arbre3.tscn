@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://df8tlrkg483aw"]
+
+[ext_resource type="Script" path="res://Scripts/arbre.gd" id="1_lknoq"]
+[ext_resource type="Texture2D" uid="uid://bmmlpabs17set" path="res://Texture/map/TX Three3.png" id="2_h7jvc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fgu0u"]
+radius = 4.0
+
+[node name="Arbre" type="Area2D"]
+script = ExtResource("1_lknoq")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(46.5833, -30.4596)
+scale = Vector2(11.7708, 9.71381)
+polygon = PackedVector2Array(-6.16639, 4.57695, -5.06196, 5.09168, -2.68319, 4.88579, -1.49381, 3.1357, -1.32389, 0.459099, -2.8531, -2.4234, -4.55222, -3.96759, -5.31683, -2.73223, -6.50621, -0.67331, -7.52568, 1.48856, -7.1009, 3.85632)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 35
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-4, 35)
+shape = SubResource("CapsuleShape2D_fgu0u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_h7jvc")
+metadata/_edit_lock_ = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
