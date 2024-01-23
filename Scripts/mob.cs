@@ -1,18 +1,26 @@
 using Godot;
 using System;
 
-public partial class Mob : RigidBody2D
+public partial class Mob : Area2D
 {
     [Export]
     private float speed = 100.0f;
     private Player player;
+    private AnimatedSprite2D mobSprites;
+
+    [Signal]
+    public delegate void MobContactPlayerEventHandler(Mob mob);
 
     public override void _Ready()
     {
+        mobSprites = GetNode<AnimatedSprite2D>("MobSprites");
         player = GetNode<Player>("../Player");
-        SetRandomPosition();
-        Connect("body_entered", new Callable(this, "_OnBodyEntered"));
-
+        
+        // Connecter le signal AreaEntered à la méthode OnAreaEntered
+        BodyEntered += OnBodyEntered;
+        AreaEntered += OnAreaEntered;
+        
+        mobSprites.Play("walk_mob");
     }
 
     public override void _Process(double delta)
@@ -24,48 +32,21 @@ public partial class Mob : RigidBody2D
         }
     }
 
-
-    private void SetRandomPosition()
+    private void OnBodyEntered(Node2D body)
     {
-        // Récupérer la taille de l'écran
-        Vector2 screenSize = GetViewportRect().Size;
-
-        // Choisir une position aléatoire en dehors de l'écran
-        GlobalPosition = new Vector2(
-            GD.Randf() * screenSize.X * 2 - screenSize.X, // Utilisez GD.Randf() au lieu de Mathf.Randf()
-            GD.Randf() * screenSize.Y * 2 - screenSize.Y // Utilisez GD.Randf() au lieu de Mathf.Randf()
-        );
-    }
-
-    private void _OnBodyEntered(Node body)
-    {
-        if (body is CharacterBody2D) // Vérifiez si le joueur est en collision
+        
+        if (body == player)
         {
-            // Démarrez l'animation de mort
-            AnimationPlayer animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-            animationPlayer.Play("Death");
-
-            // Désactivez le RigidBody2D pour arrêter le déplacement du Mob
-            SetProcess(false);
-
-            // Obtenez la durée de l'animation de mort
-            float deathAnimationLength = animationPlayer.GetAnimation("Death").Length;
-
-            // Supprimez le Mob du jeu après la durée de l'animation de mort
-            CallDeferred("_RemoveMob", deathAnimationLength);
+            EmitSignal(nameof(MobContactPlayer), this); // Émettre le signal
+            QueueFree();
         }
     }
 
-
-    private void _RemoveMob(float delay)
+    private void OnAreaEntered(Node2D area)
     {
-        CallDeferred("_DoRemoveMob", delay);
+        if (area is Bullet)
+        {
+            QueueFree();
+        }
     }
-
-    private void _DoRemoveMob(float delay)
-    {
-        QueueFree();
-    }
-
 }
-

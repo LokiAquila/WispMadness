@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnoxfj5cwtqby"]
+[gd_scene load_steps=5 format=3 uid="uid://bw74et15s0gc3"]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_5owgs"]
 [ext_resource type="Texture2D" uid="uid://qch2lpngig8l" path="res://Sprites/mpx4llbf.bmp" id="2_20i5m"]
@@ -44,6 +44,8 @@ animations = [{
 
 [node name="Bullet" type="Area2D"]
 scale = Vector2(0.5, 0.5)
+collision_layer = 32
+collision_mask = 66
 script = ExtResource("1_5owgs")
 Speed = 100.0
 Lifespan = 2.0
@@ -58,3 +60,5 @@ animation = &"bullet_player"
 frame_progress = 0.247007
 
 [connection signal="animation_looped" from="BulletSprite" to="." method="_on_bullet_sprite_animation_looped"]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
