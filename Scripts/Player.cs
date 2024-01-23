@@ -30,7 +30,7 @@ public partial class Player : CharacterBody2D
 	// Timer pour gérer la diminution de la lumière.
 	private Timer lightTimer;
 	
-	private Camera2D camera;
+	public Camera2D camera;
 
 	//Le conteneur du texte d'interaction
 	private HBoxContainer labelContainer;
@@ -43,12 +43,16 @@ public partial class Player : CharacterBody2D
 	private Vector2 _screenSize; // Size of the game window.
 	
 	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
+	
+	[Signal]
+	public delegate void PlayerDeathEventHandler(Player player);
 
 	public override void _Ready()
 	{
 		_screenSize = GetViewportRect().Size;
 		// Récupérer les nœuds enfants.
 		playerLight = GetNode<PointLight2D>("PlayerLight");
+		lightTimer = GetNode<Timer>("LightTimer");
 		
 		
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
@@ -66,13 +70,10 @@ public partial class Player : CharacterBody2D
 		camera.PositionSmoothingEnabled = true;
 		camera.PositionSmoothingSpeed = 10;
 
-		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout".
-		lightTimer = GetNode<Timer>("LightTimer");
-		var lightTimerCallable = new Callable(this, nameof(OnLightTimerTimeout));
-		lightTimer.Connect("timeout", lightTimerCallable);
+		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout"
+		lightTimer.Timeout += OnLightTimerTimeout;
 		
 		playerSprite.AnimationLooped += _on_player_sprite_animation_looped;
-
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -112,6 +113,7 @@ public partial class Player : CharacterBody2D
 		// Calcule la direction de la souris par rapport au joueur
 		var mousePosition = GetGlobalMousePosition();
 		var directionToMouse = (mousePosition - Position).Normalized();
+
 		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
 		playerSprite.Play("attack_player");
 	}
@@ -143,6 +145,28 @@ public partial class Player : CharacterBody2D
 			Console.WriteLine("Changement d'animation");
 		}
 		
+	}
+	
+	public void OnOrbPickedUp(Orb orb, float orbVitality)
+	{
+		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
+		GD.Print("Gob mon orb : " + orbVitality);
+		vitality = Mathf.Min(vitality + orbVitality, 1);
+		playerLight.TextureScale = vitality;
+	}
+	
+	public void OnMobContact(Mob mob)
+	{
+		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
+		GD.Print("MARCHE STP");
+		vitality = (float) Mathf.Max(vitality - 0.5, 0);
+		playerLight.TextureScale = vitality;
+	}
+
+	public void Kill()
+	{
+		playerSprite.Play("death_player");
+		EmitSignal(nameof(PlayerDeathEventHandler), this); // Émettre le signal
 	}
 
 	public void AddInteractable(IPlayerInteractable interactable)
