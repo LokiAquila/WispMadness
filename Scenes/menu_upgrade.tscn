@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://di3xdir7wsd3y"]
+
+[ext_resource type="FontFile" uid="uid://pibow3vgibxa" path="res://font/pixelart.ttf" id="1_dgloj"]
+[ext_resource type="Texture2D" uid="uid://cgy64ax3wi6vr" path="res://Texture/augment/augment_1.png" id="2_mm6tn"]
+[ext_resource type="Texture2D" uid="uid://c8q2mavgwky22" path="res://Texture/augment/augment2.png" id="3_e4p0m"]
+[ext_resource type="Texture2D" uid="uid://cheixui6080v" path="res://Texture/augment/augment_3.png" id="4_evm34"]
+[ext_resource type="Texture2D" uid="uid://ci6y4uxkjejet" path="res://Texture/augment/augment_4.png" id="5_jvy35"]
+
+[sub_resource type="Theme" id="Theme_rfhqr"]
+default_font = ExtResource("1_dgloj")
+default_font_size = 45
+
+[sub_resource type="Theme" id="Theme_323ye"]
+default_font = ExtResource("1_dgloj")
+default_font_size = 30
+
+[node name="menu_up" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 1152.0
+offset_bottom = 652.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_rfhqr")
+text = "Pick your upgrade :    "
+
+[node name="Menu" type="ItemList" parent="VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_323ye")
+allow_search = false
+auto_height = true
+item_count = 4
+max_columns = 4
+fixed_column_width = 275
+icon_mode = 0
+icon_scale = 5.0
+item_0/text = " 20"
+item_0/icon = ExtResource("2_mm6tn")
+item_1/text = " 60"
+item_1/icon = ExtResource("3_e4p0m")
+item_2/text = "  40"
+item_2/icon = ExtResource("4_evm34")
+item_3/text = "  30"
+item_3/icon = ExtResource("5_jvy35")
