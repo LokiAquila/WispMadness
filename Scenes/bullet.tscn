@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dnoxfj5cwtqby"]
+[gd_scene load_steps=5 format=3 uid="uid://bw74et15s0gc3"]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_5owgs"]
 
@@ -25,3 +25,5 @@ shape = SubResource("CircleShape2D_wxsg2")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, -1)
 texture = SubResource("GradientTexture2D_jr7xc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

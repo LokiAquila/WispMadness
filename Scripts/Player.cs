@@ -43,10 +43,9 @@ public partial class Player : CharacterBody2D
 		// Récupérer les nœuds enfants.
 		playerLight = GetNode<PointLight2D>("PlayerLight");
 		
+		
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
 		
-		playerSprite.Play("walk_player");
-
 		// Initialiser le champ de vision du joueur.
 		vitality = 1; // 1 pour 100% de l'échelle initiale
 		playerLight.TextureScale = vitality;
@@ -60,7 +59,8 @@ public partial class Player : CharacterBody2D
 
 		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout".
 		lightTimer.Timeout += OnLightTimerTimeout;
-
+		
+		playerSprite.AnimationLooped += _on_player_sprite_animation_looped;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -96,13 +96,14 @@ public partial class Player : CharacterBody2D
 		var directionToMouse = (mousePosition - Position).Normalized();
 
 		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
+		playerSprite.Play("attack_player");
 	}
 
 
 	public void OnLightTimerTimeout()
 	{
 		// Diminuer progressivement l'échelle de la lumière du joueur lorsque le timer expire.
-		vitality -= 0.03f; // Réduire l'échelle de 10%
+		vitality -= 0.01f; // Réduire l'échelle de 10%
 
 		// Arrêter le timer lorsque la lumière est épuisée.
 		if (vitality <= 0)
@@ -115,6 +116,16 @@ public partial class Player : CharacterBody2D
 		{
 			playerLight.TextureScale = vitality;
 		}
+	}
+	
+	public void _on_player_sprite_animation_looped()
+	{
+		if (playerSprite.Animation == "attack_player")
+		{
+			playerSprite.Play("walk_player");
+			Console.WriteLine("Changement d'animation");
+		}
+		
 	}
 	
 	public void OnOrbPickedUp(Orb orb, float orbVitality)
