@@ -59,7 +59,7 @@ public partial class Mob : Area2D
         
         if (body == player)
         {
-            EmitSignal(nameof(MobContactPlayer), this); // Émettre le signal
+            CallDeferred("emit_signal", nameof(MobContactPlayer), this);
             Die();
         }
     }
@@ -78,8 +78,8 @@ public partial class Mob : Area2D
         GD.Print(chance);
         if (chance == 10)
         {
-            EmitSignal(nameof(OrbDropped), Position);
+            CallDeferred("emit_signal", nameof(OrbDropped), Position);
         }
-        QueueFree();
+        CallDeferred("free"); // Appel différé pour libérer l'objet
     }
 }
