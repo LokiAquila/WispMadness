@@ -1,31 +1,64 @@
 [gd_scene load_steps=5 format=3 uid="uid://bw74et15s0gc3"]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_5owgs"]
+[ext_resource type="Texture2D" uid="uid://qch2lpngig8l" path="res://Sprites/mpx4llbf.bmp" id="2_20i5m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wxsg2"]
 radius = 18.98
 
-[sub_resource type="Gradient" id="Gradient_nxpqr"]
-offsets = PackedFloat32Array(0.0178571, 0.369048, 0.416667, 0.428571, 1)
-colors = PackedColorArray(0.0784314, 1, 1, 1, 0.545618, 0.930809, 0.910284, 1, 0.678431, 0.886275, 0.882353, 0.54902, 0.168627, 0.168627, 0.168627, 0, 1, 1, 1, 0)
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4dvm"]
+atlas = ExtResource("2_20i5m")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_jr7xc"]
-gradient = SubResource("Gradient_nxpqr")
-fill = 1
-fill_from = Vector2(0.508621, 0.521552)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxnj7"]
+atlas = ExtResource("2_20i5m")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mrrx"]
+atlas = ExtResource("2_20i5m")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knq2y"]
+atlas = ExtResource("2_20i5m")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_di7ik"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g4dvm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxnj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mrrx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_knq2y")
+}],
+"loop": true,
+"name": &"bullet_player",
+"speed": 27.0
+}]
 
 [node name="Bullet" type="Area2D"]
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.5, 0.5)
 collision_layer = 32
 collision_mask = 66
 script = ExtResource("1_5owgs")
-Speed = 400.0
+Speed = 100.0
+Lifespan = 2.0
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_wxsg2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1, -1)
-texture = SubResource("GradientTexture2D_jr7xc")
+[node name="BulletSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_di7ik")
+animation = &"bullet_player"
+frame_progress = 0.247007
+
+[connection signal="animation_looped" from="BulletSprite" to="." method="_on_bullet_sprite_animation_looped"]
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
