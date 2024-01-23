@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bw74et15s0gc3"]
+[gd_scene load_steps=9 format=3 uid="uid://bw74et15s0gc3"]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_5owgs"]
+[ext_resource type="Texture2D" uid="uid://qch2lpngig8l" path="res://Sprites/mpx4llbf.bmp" id="2_20i5m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wxsg2"]
 radius = 18.98
@@ -42,12 +43,11 @@ animations = [{
 }]
 
 [node name="Bullet" type="Area2D"]
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.5, 0.5)
 collision_layer = 32
 collision_mask = 66
 script = ExtResource("1_5owgs")
-Speed = 300.0
-Lifespan = 2.0
+Lifespan = 1.0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -58,6 +58,5 @@ sprite_frames = SubResource("SpriteFrames_di7ik")
 animation = &"bullet_player"
 frame_progress = 0.247007
 
-[connection signal="animation_looped" from="BulletSprite" to="." method="_on_bullet_sprite_animation_looped"]
-
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="animation_looped" from="BulletSprite" to="." method="_on_bullet_sprite_animation_looped"]
