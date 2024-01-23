@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br35itveppfoj"
-path="res://.godot/imported/marches_mob.png-a7658c3c8bc0a77b68a877027529eb26.ctex"
+uid="uid://cm47vlkibsphb"
+path="res://.godot/imported/aquila_logo.png-2bb7ed0fb188adda6b440679cd56eec1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/marches_mob.png"
-dest_files=["res://.godot/imported/marches_mob.png-a7658c3c8bc0a77b68a877027529eb26.ctex"]
+source_file="res://Autres/aquila_logo.png"
+dest_files=["res://.godot/imported/aquila_logo.png-2bb7ed0fb188adda6b440679cd56eec1.ctex"]
 
 [params]
 

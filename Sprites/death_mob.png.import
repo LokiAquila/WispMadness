@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg8qnevyiwg8n"
-path="res://.godot/imported/attaques_player.png-b655adec473b6835a3f93b417de9f9f4.ctex"
+uid="uid://dfa1ijjcxbqos"
+path="res://.godot/imported/death_mob.png-d76891722604f6cc61c59f20dad94356.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/attaques_player.png"
-dest_files=["res://.godot/imported/attaques_player.png-b655adec473b6835a3f93b417de9f9f4.ctex"]
+source_file="res://Sprites/death_mob.png"
+dest_files=["res://.godot/imported/death_mob.png-d76891722604f6cc61c59f20dad94356.ctex"]
 
 [params]
 

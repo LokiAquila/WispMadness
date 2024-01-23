@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q7b081vusey3"
-path="res://.godot/imported/attaques_mob.png-be8218cc46a433a05a6c1a47dffe8a70.ctex"
+uid="uid://bg8qnevyiwg8n"
+path="res://.godot/imported/attack_player.png-b6956d7eaf018ce390faeca466ccfc88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/attaques_mob.png"
-dest_files=["res://.godot/imported/attaques_mob.png-be8218cc46a433a05a6c1a47dffe8a70.ctex"]
+source_file="res://Sprites/attack_player.png"
+dest_files=["res://.godot/imported/attack_player.png-b6956d7eaf018ce390faeca466ccfc88.ctex"]
 
 [params]
 

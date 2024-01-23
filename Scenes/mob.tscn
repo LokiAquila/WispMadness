@@ -1,9 +1,9 @@
 [gd_scene load_steps=40 format=3 uid="uid://bpg8q8x8adh1"]
 
-[ext_resource type="Script" path="res://Scripts/mob.cs" id="1_od1k1"]
-[ext_resource type="Texture2D" uid="uid://q7b081vusey3" path="res://Sprites/attaques_mob.png" id="2_aydgl"]
-[ext_resource type="Texture2D" uid="uid://br35itveppfoj" path="res://Sprites/marches_mob.png" id="3_5asl6"]
-[ext_resource type="Texture2D" uid="uid://dfa1ijjcxbqos" path="res://Sprites/morts_mob.png" id="4_dx4gb"]
+[ext_resource type="Script" path="res://Scripts/Mob.cs" id="1_od1k1"]
+[ext_resource type="Texture2D" uid="uid://q7b081vusey3" path="res://Sprites/attack_mob.png" id="2_aydgl"]
+[ext_resource type="Texture2D" uid="uid://br35itveppfoj" path="res://Sprites/walk_mob.png" id="3_5asl6"]
+[ext_resource type="Texture2D" uid="uid://dfa1ijjcxbqos" path="res://Sprites/death_mob.png" id="4_dx4gb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3bwtc"]
 atlas = ExtResource("2_aydgl")
