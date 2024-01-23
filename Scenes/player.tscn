@@ -1,6 +1,7 @@
-[gd_scene load_steps=39 format=3 uid="uid://c57vnwee3irx4"]
+[gd_scene load_steps=40 format=3 uid="uid://c57vnwee3irx4"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_15b5q"]
+[ext_resource type="PackedScene" path="res://Scenes/bullet.tscn" id="2_awsjs"]
 [ext_resource type="Texture2D" uid="uid://bg8qnevyiwg8n" path="res://Sprites/attack_player.png" id="2_c3dsr"]
 [ext_resource type="Texture2D" uid="uid://077krtmxe3fo" path="res://Sprites/walk_player.png" id="3_73ap6"]
 [ext_resource type="Texture2D" uid="uid://bolv3jqkmpmm1" path="res://Sprites/death_player.png" id="4_62sxl"]
@@ -157,7 +158,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack_player",
-"speed": 20.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -230,12 +231,12 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_player",
-"speed": 9.0
+"speed": 14.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lan6p"]
-radius = 62.0
-height = 126.0
+radius = 11.0
+height = 54.0
 
 [sub_resource type="Gradient" id="Gradient_nxq84"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -250,12 +251,16 @@ fill_to = Vector2(0.866379, 0.146552)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_15b5q")
+ProjectileScene = ExtResource("2_awsjs")
+metadata/_edit_group_ = true
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4eiwt")
-animation = &"death_player"
+animation = &"walk_player"
+autoplay = "walk_player"
 
 [node name="PlayerCollision" type="CollisionShape2D" parent="."]
+position = Vector2(1, 7)
 shape = SubResource("CapsuleShape2D_lan6p")
 
 [node name="PlayerLight" type="PointLight2D" parent="."]
@@ -263,6 +268,7 @@ position = Vector2(1, 1)
 scale = Vector2(2.63202, 2.63202)
 energy = 0.7
 texture = SubResource("GradientTexture2D_vimxs")
+metadata/_edit_lock_ = true
 
 [node name="PlayerRayCast" type="RayCast2D" parent="."]
 
@@ -271,3 +277,6 @@ wait_time = 0.6
 autostart = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3.5, 3.5)
+
+[connection signal="animation_looped" from="PlayerSprite" to="." method="_on_player_sprite_animation_looped"]

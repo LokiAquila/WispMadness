@@ -6,7 +6,7 @@ public partial class Player : CharacterBody2D
 {
 	// Vitesse de déplacement du joueur.
 	[Export]
-	public float Speed = 300.0f;
+	public float Speed = 250.0f;
 	
 	[Export]
 	public PackedScene ProjectileScene;
@@ -43,8 +43,6 @@ public partial class Player : CharacterBody2D
 		
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
 		
-		playerSprite.Play("walk_player");
-
 		// Initialiser le champ de vision du joueur.
 		vitality = 1; // 1 pour 100% de l'échelle initiale
 		playerLight.TextureScale = vitality;
@@ -54,13 +52,15 @@ public partial class Player : CharacterBody2D
 		camera.MakeCurrent();
 		camera.Align();
 		camera.PositionSmoothingEnabled = true;
-		camera.PositionSmoothingSpeed = 3;
+		camera.PositionSmoothingSpeed = 10;
 
 		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout".
 		lightTimer = GetNode<Timer>("LightTimer");
 		var lightTimerCallable = new Callable(this, nameof(OnLightTimerTimeout));
 		lightTimer.Connect("timeout", lightTimerCallable);
 		
+		playerSprite.AnimationLooped += _on_player_sprite_animation_looped;
+
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -94,8 +94,8 @@ public partial class Player : CharacterBody2D
 		// Calcule la direction de la souris par rapport au joueur
 		var mousePosition = GetGlobalMousePosition();
 		var directionToMouse = (mousePosition - Position).Normalized();
-
 		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
+		playerSprite.Play("attack_player");
 	}
 
 
@@ -115,5 +115,15 @@ public partial class Player : CharacterBody2D
 		{
 			playerLight.TextureScale = vitality;
 		}
+	}
+	
+	public void _on_player_sprite_animation_looped()
+	{
+		if (playerSprite.Animation == "attack_player")
+		{
+			playerSprite.Play("walk_player");
+			Console.WriteLine("Changement d'animation");
+		}
+		
 	}
 }
