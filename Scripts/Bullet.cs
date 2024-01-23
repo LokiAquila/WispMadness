@@ -22,6 +22,7 @@ public partial class Bullet : Area2D
 		PlayerVelocity = player.Velocity;
 		
 		BodyEntered += OnAreaEntered;
+		AreaEntered += OnAreaEntered;
 		
 		
 		_timer = new Timer();
@@ -52,6 +53,14 @@ public partial class Bullet : Area2D
 			GD.Print("Collision avec " + body.Name + " !");
 			QueueFree();
 		}
-
+	}
+	
+	private void OnAreaEntered(Area2D area)
+	{
+		GD.Print("Collision avec " + area.Name + " !");
+		if (area.Name == "Mob")
+		{
+			QueueFree();
+		}
 	}
 }

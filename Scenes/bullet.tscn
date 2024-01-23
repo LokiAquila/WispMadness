@@ -16,6 +16,8 @@ fill_from = Vector2(0.508621, 0.521552)
 
 [node name="Bullet" type="Area2D"]
 scale = Vector2(0.2, 0.2)
+collision_layer = 32
+collision_mask = 66
 script = ExtResource("1_5owgs")
 Speed = 400.0
 
