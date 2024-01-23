@@ -6,7 +6,7 @@ public partial class Player : CharacterBody2D
 {
 	// Vitesse de déplacement du joueur.
 	[Export]
-	public float Speed = 300.0f;
+	public float Speed = 250.0f;
 	
 	[Export]
 	public PackedScene ProjectileScene;
@@ -52,7 +52,7 @@ public partial class Player : CharacterBody2D
 		camera.MakeCurrent();
 		camera.Align();
 		camera.PositionSmoothingEnabled = true;
-		camera.PositionSmoothingSpeed = 3;
+		camera.PositionSmoothingSpeed = 10;
 
 		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout".
 		lightTimer = GetNode<Timer>("LightTimer");
