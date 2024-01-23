@@ -227,6 +227,7 @@ public partial class Player : CharacterBody2D
 		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
 		vitality = Mathf.Min(vitality + orbVitality, 1);
 		playerLight.TextureScale = vitality;
+		Orbs++;
 	}
 	
 	public void OnMobContact()
