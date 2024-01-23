@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnoxfj5cwtqby"]
+
+[ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_5owgs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wxsg2"]
+radius = 18.98
+
+[sub_resource type="Gradient" id="Gradient_nxpqr"]
+offsets = PackedFloat32Array(0.0178571, 0.369048, 0.416667, 0.428571, 1)
+colors = PackedColorArray(0.0784314, 1, 1, 1, 0.545618, 0.930809, 0.910284, 1, 0.678431, 0.886275, 0.882353, 0.54902, 0.168627, 0.168627, 0.168627, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jr7xc"]
+gradient = SubResource("Gradient_nxpqr")
+fill = 1
+fill_from = Vector2(0.508621, 0.521552)
+
+[node name="Bullet" type="Area2D"]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_5owgs")
+Speed = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wxsg2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, -1)
+texture = SubResource("GradientTexture2D_jr7xc")

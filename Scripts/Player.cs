@@ -1,11 +1,18 @@
 using Godot;
 using System;
 
+
 public partial class Player : CharacterBody2D
 {
 	// Vitesse de déplacement du joueur.
 	[Export]
 	public float Speed = 300.0f;
+	
+	[Export]
+	public PackedScene ProjectileScene;
+	
+	[Export]
+	public double shootingCooldown = 0.3; // Délai en secondes entre chaque tir
 	
 	// Champ de vision actuel du joueur.
 	private float vitality;
@@ -24,6 +31,8 @@ public partial class Player : CharacterBody2D
 	// Déplacement du joueur.
 	
 	private Vector2 _screenSize; // Size of the game window.
+	
+	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
 
 	public override void _Ready()
 	{
@@ -57,6 +66,35 @@ public partial class Player : CharacterBody2D
 		Velocity = direction * Speed;
 		MoveAndSlide();
 	}
+
+	public override void _Process(double delta)
+	{
+		// Vérifiez si le joueur peut tirer en fonction du délai entre les tirs
+		if (Input.IsActionJustPressed("Attaque") && shootingTimer >= shootingCooldown)
+		{
+			Shoot();
+			shootingTimer = 0;	 // Réinitialisez le compteur de temps après avoir tiré
+		}
+		
+		if (shootingTimer < shootingCooldown)
+		{
+			shootingTimer += delta;
+		}
+	}
+	
+	private void Shoot()
+	{
+		var projectile = ProjectileScene.Instantiate<Bullet>();
+		GetParent().AddChild(projectile); // Ajoute le projectile à la scène
+		projectile.Position = Position; // Démarre le projectile à la position du joueur
+
+		// Calcule la direction de la souris par rapport au joueur
+		var mousePosition = GetGlobalMousePosition();
+		var directionToMouse = (mousePosition - Position).Normalized();
+
+		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
+	}
+
 
 	public void OnLightTimerTimeout()
 	{
