@@ -42,6 +42,8 @@ public partial class Player : CharacterBody2D
 		
 		
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
+		
+		playerSprite.Play("walk_player");
 
 		// Initialiser le champ de vision du joueur.
 		vitality = 1; // 1 pour 100% de l'échelle initiale
@@ -58,6 +60,7 @@ public partial class Player : CharacterBody2D
 		lightTimer = GetNode<Timer>("LightTimer");
 		var lightTimerCallable = new Callable(this, nameof(OnLightTimerTimeout));
 		lightTimer.Connect("timeout", lightTimerCallable);
+		
 	}
 
 	public override void _PhysicsProcess(double delta)

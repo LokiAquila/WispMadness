@@ -32,7 +32,9 @@ public partial class Bullet : Area2D
 
 	public override void _Process(double delta)
 	{
-		Position += (Direction * Speed + PlayerVelocity) * (float)delta;
+		Vector2 adaptedSpeed = (Direction * Speed + PlayerVelocity) * (float)delta;
+		Vector2 defaultSpeed = Direction * Speed * (float)delta;
+		Position += defaultSpeed.Length() > adaptedSpeed.Length() ? defaultSpeed : adaptedSpeed;
 	}
 	
 	private void _OnTimerTimeout()
