@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="CGJ24"
-run/main_scene="res://Scenes/level.tscn"
+run/main_scene="res://Scenes/menu.tscn"
 config/features=PackedStringArray("4.2", "C#", "Mobile")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/image="res://Autres/aquila_logo.png"
+config/icon="res://Autres/aquila_logo.png"
 
 [dotnet]
 
