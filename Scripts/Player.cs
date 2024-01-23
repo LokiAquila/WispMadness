@@ -42,6 +42,7 @@ public partial class Player : CharacterBody2D
 		_screenSize = GetViewportRect().Size;
 		// Récupérer les nœuds enfants.
 		playerLight = GetNode<PointLight2D>("PlayerLight");
+		lightTimer = GetNode<Timer>("LightTimer");
 		
 		
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
@@ -57,7 +58,7 @@ public partial class Player : CharacterBody2D
 		camera.PositionSmoothingEnabled = true;
 		camera.PositionSmoothingSpeed = 10;
 
-		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout".
+		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout"
 		lightTimer.Timeout += OnLightTimerTimeout;
 		
 		playerSprite.AnimationLooped += _on_player_sprite_animation_looped;
@@ -131,7 +132,7 @@ public partial class Player : CharacterBody2D
 	public void OnOrbPickedUp(Orb orb, float orbVitality)
 	{
 		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
-		GD.Print("Gob mon orb");
+		GD.Print("Gob mon orb : " + orbVitality);
 		vitality = Mathf.Min(vitality + orbVitality, 1);
 		playerLight.TextureScale = vitality;
 	}

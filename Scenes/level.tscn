@@ -1,9 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://ch0md7meuanh2"]
+[gd_scene load_steps=6 format=3 uid="uid://ch0md7meuanh2"]
 
+[ext_resource type="Script" path="res://Scripts/Level.cs" id="1_ag8dc"]
 [ext_resource type="TileSet" uid="uid://fjaqhtejdtst" path="res://Texture/TileSet/level.tres" id="1_vsk67"]
 [ext_resource type="PackedScene" uid="uid://c57vnwee3irx4" path="res://Scenes/player.tscn" id="2_7go33"]
+[ext_resource type="PackedScene" uid="uid://baop74k4pd7kr" path="res://Scenes/orb.tscn" id="2_s0tw3"]
+[ext_resource type="PackedScene" uid="uid://bpg8q8x8adh1" path="res://Scenes/mob.tscn" id="3_y7d13"]
 
 [node name="Level" type="Node2D"]
+script = ExtResource("1_ag8dc")
+OrbScene = ExtResource("2_s0tw3")
+MobScene = ExtResource("3_y7d13")
 
 [node name="Map" type="TileMap" parent="."]
 tile_set = ExtResource("1_vsk67")
@@ -49,5 +55,4 @@ motion_mode = 1
 wall_min_slide_angle = 0.00872665
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0, 0.0196078, 0.137255, 1)

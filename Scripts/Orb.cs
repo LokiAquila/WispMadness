@@ -30,7 +30,7 @@ public partial class Orb : Area2D
 
         // Configure the Timer
         Timer orbTimer = GetNode<Timer>("OrbTimer");
-        orbTimer.WaitTime = 20f; // Check every 0.1 seconds
+        orbTimer.WaitTime = 0.1f; // Check every 0.1 seconds
         orbTimer.OneShot = false; // The timer runs repeatedly
         orbTimer.Timeout += OnTimerTimeout;
         orbTimer.Start();
