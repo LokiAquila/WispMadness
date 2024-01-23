@@ -38,7 +38,7 @@ public partial class Level : Node2D
 	{
 		//Ajout et Configuration du Timer pour géré le Spawn des Mobs
 		mobInterval = new Timer();
-		mobInterval.WaitTime = 0.7;
+		mobInterval.WaitTime = 0.65;
 		mobInterval.Autostart = true;
 		mobInterval.Timeout += SpawnMob;
 		AddChild(mobInterval);

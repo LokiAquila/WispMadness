@@ -6,10 +6,10 @@ public partial class Bullet : Area2D
 	public Vector2 Direction;
 	
 	//Vitesse de la balle
-	[Export] public float Speed = 300;
+	[Export] public float Speed = 200;
 	
 	// Durée de la vie de la Balle
-	[Export] public float Lifespan = 1f;
+	[Export] public float Lifespan = 0.7f;
 	
 	// Capacité de la balle a trenspercer les ennemies
 	public int Piercing = 0;
