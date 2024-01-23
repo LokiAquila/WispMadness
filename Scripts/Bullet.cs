@@ -11,16 +11,16 @@ public partial class Bullet : Area2D
 
 	private Timer _timer;
 	
-	private Vector2 PlayerVelocity; // Ajoutez cette variable
+	private Vector2 PlayerVelocity;
 	
-	
+	private AnimatedSprite2D bulletSprite;
+
 
 	public override void _Ready()
 	{
-		// Détruire le projectile après un certain temps
 		Player player = GetNode<Player>("../Player");
 		PlayerVelocity = player.Velocity;
-		
+		bulletSprite = GetNode<AnimatedSprite2D>("BulletSprite");
 		_timer = new Timer();
 		_timer.WaitTime = Lifespan;
 		_timer.OneShot = true;
@@ -28,6 +28,7 @@ public partial class Bullet : Area2D
 		_timer.Connect("timeout", timerCallable);
 		AddChild(_timer);
 		_timer.Start();
+		bulletSprite.Play("bullet_player");
 	}
 
 	public override void _Process(double delta)

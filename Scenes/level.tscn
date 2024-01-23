@@ -50,5 +50,4 @@ motion_mode = 1
 wall_min_slide_angle = 0.00872665
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0, 0.0196078, 0.137255, 1)

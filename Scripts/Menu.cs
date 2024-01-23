@@ -9,7 +9,7 @@ public partial class Menu : Control
 	}
 	private void _on_options_pressed()
 	{
-		GetTree().ChangeSceneToFile("res://Scenes/options.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/options_container.tscn");
 	}
 	private void _on_quit_pressed()
 	{
