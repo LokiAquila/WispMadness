@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bpg8q8x8adh1"]
+[gd_scene load_steps=43 format=3 uid="uid://bpg8q8x8adh1"]
 
 [ext_resource type="Script" path="res://Scripts/Mob.cs" id="1_od1k1"]
 [ext_resource type="Texture2D" uid="uid://q7b081vusey3" path="res://Sprites/attack_mob.png" id="2_aydgl"]
@@ -265,7 +265,19 @@ animations = [{
 radius = 15.0
 height = 62.0
 
+[sub_resource type="Gradient" id="Gradient_0d61k"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fh3tv"]
+gradient = SubResource("Gradient_0d61k")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.866379, 0.146552)
+
 [node name="Mob" type="Area2D"]
+scale = Vector2(0.5, 0.5)
 collision_layer = 2
 collision_mask = 99
 script = ExtResource("1_od1k1")
@@ -276,3 +288,11 @@ animation = &"death_mob"
 
 [node name="MobCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_sihe3")
+
+[node name="MobLight" type="PointLight2D" parent="."]
+position = Vector2(1, 1)
+scale = Vector2(2.63202, 2.63202)
+color = Color(0.701961, 0.0980392, 0.247059, 1)
+energy = 0.27
+texture = SubResource("GradientTexture2D_fh3tv")
+metadata/_edit_lock_ = true

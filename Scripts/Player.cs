@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using CGJ24.Classes;
 
 
 public partial class Player : CharacterBody2D
@@ -14,55 +15,62 @@ public partial class Player : CharacterBody2D
 	
 	[Export]
 	public double shootingCooldown = 0.3; // Délai en secondes entre chaque tir
-
-	//Liste des éléments de la carte interactibles par le joueur
-	private readonly List<IPlayerInteractable> interactables = new();
+	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
 	
 	// Champ de vision actuel du joueur.
 	private float vitality;
-
-	// Point de départ de la lumière du joueur.
-	private PointLight2D playerLight;
-
-	// Animation du joueur.
-	private AnimatedSprite2D playerSprite;
-
-	// Timer pour gérer la diminution de la lumière.
-	private Timer lightTimer;
 	
+	private PointLight2D playerLight;
+	private AnimatedSprite2D playerSprite;
+	private Timer lightTimer;
 	public Camera2D camera;
-
+	
+	//Liste des éléments de la carte interactibles par le joueur
+	private readonly List<IPlayerInteractable> interactables = new();
 	//Le conteneur du texte d'interaction
 	private HBoxContainer labelContainer;
-
 	//Le texte d'interaction
 	private Label interactLabel;
 
 	// Déplacement du joueur.
-	
 	private Vector2 _screenSize; // Size of the game window.
+
+	public int Orbs = 0; 
+
+	public Upgrade piercingUpgrade;
 	
-	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
+	public Upgrade speedUpgrade;
+	
+	public Upgrade fireRateUpgrade;
+	
+	public Upgrade enduranceUpgrade;
+
+	private double initialLightWaitTime;
 	
 	[Signal]
 	public delegate void PlayerDeathEventHandler(Player player);
 
 	public override void _Ready()
 	{
+		piercingUpgrade = new Upgrade(5, 0, 5);
+		speedUpgrade = new Upgrade(5, 0, 5);
+		fireRateUpgrade = new Upgrade(5, 0, 5);
+		enduranceUpgrade = new Upgrade(5, 0, 5);
+		
+		// Récupérer les éléments de la scene
 		_screenSize = GetViewportRect().Size;
-		// Récupérer les nœuds enfants.
 		playerLight = GetNode<PointLight2D>("PlayerLight");
 		lightTimer = GetNode<Timer>("LightTimer");
-		
-		
+		initialLightWaitTime = lightTimer.WaitTime;
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
 		labelContainer = GetNode<HBoxContainer>("MarginContainer/Interact");
 		interactLabel = labelContainer.GetNode<Label>("Label");
 		
 		// Initialiser le champ de vision du joueur.
-		vitality = 1; // 1 pour 100% de l'échelle initiale
+		vitality = 1; // 1 pour 100% 
 		playerLight.TextureScale = vitality;
 	
+		// Paramétrage de la camera
 		camera = GetNode<Camera2D>("Camera2D");
 		camera.Enabled = true;
 		camera.MakeCurrent();
@@ -73,20 +81,21 @@ public partial class Player : CharacterBody2D
 		// Connecter le signal "timeout" du timer à la méthode "OnLightTimerTimeout"
 		lightTimer.Timeout += OnLightTimerTimeout;
 		
-		playerSprite.AnimationLooped += _on_player_sprite_animation_looped;
+		playerSprite.AnimationLooped += OnPlayerSpriteAnimationLooped;
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 direction =  Input.GetVector("Gauche", "Droite", "Haut", "Bas");
-		Velocity = direction * Speed;
+		Velocity = direction * (Speed + speedUpgrade.GetLevel() * 50);
 		MoveAndSlide();
 	}
 
 	public override void _Process(double delta)
 	{
+		var reelShootingCooldown = shootingCooldown - fireRateUpgrade.GetLevel() * 0.05;
 		// Vérifiez si le joueur peut tirer en fonction du délai entre les tirs
-		if (Input.IsActionJustPressed("Attaque") && shootingTimer >= shootingCooldown)
+		if (Input.IsActionJustPressed("Attaque") && shootingTimer >= reelShootingCooldown)
 		{
 			Shoot();
 			shootingTimer = 0;	 // Réinitialisez le compteur de temps après avoir tiré
@@ -117,55 +126,46 @@ public partial class Player : CharacterBody2D
 		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
 		playerSprite.Play("attack_player");
 	}
-
-
-	public void OnLightTimerTimeout()
-	{
-		// Diminuer progressivement l'échelle de la lumière du joueur lorsque le timer expire.
-		vitality -= 0.01f; // Réduire l'échelle de 10%
-
-		// Arrêter le timer lorsque la lumière est épuisée.
-		if (vitality <= 0)
-		{
-			vitality = 0;
-			playerLight.TextureScale = 0; 
-			lightTimer.Stop();
-		}
-		else
-		{
-			playerLight.TextureScale = vitality;
-		}
-	}
 	
-	public void _on_player_sprite_animation_looped()
+	public void Die()
 	{
-		if (playerSprite.Animation == "attack_player")
-		{
-			playerSprite.Play("walk_player");
-		}
-		
-	}
-	
-	public void OnOrbPickedUp(Orb orb, float orbVitality)
-	{
-		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
-		vitality = Mathf.Min(vitality + orbVitality, 1);
-		playerLight.TextureScale = vitality;
-	}
-	
-	public void OnMobContact()
-	{
-		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
-		vitality = (float) Mathf.Max(vitality - 0.5, 0);
-		playerLight.TextureScale = vitality;
-	}
-
-	public void Kill()
-	{
+		lightTimer.Stop();
+		vitality = 0;
+		playerLight.TextureScale = 0;
 		playerSprite.Play("death_player");
-		EmitSignal(nameof(PlayerDeathEventHandler), this); // Émettre le signal
+		piercingUpgrade.Reset();
+		speedUpgrade.Reset();
+		fireRateUpgrade.Reset();
+		enduranceUpgrade.Reset();
+		
+		EmitSignal(nameof(PlayerDeath), this); // Émettre le signal
 	}
 
+	public void UpgradePiercing()
+	{
+		if (!piercingUpgrade.CanUpgrade(Orbs)) return;
+		piercingUpgrade.Up();
+	}
+	
+	public void UpgradeSpeed()
+	{
+		if (!speedUpgrade.CanUpgrade(Orbs)) return;
+		speedUpgrade.Up();
+	}
+	public void UpgradeFireRate()
+	{
+		if (!fireRateUpgrade.CanUpgrade(Orbs)) return;
+		fireRateUpgrade.Up();
+	}
+	
+	public void UpgradeEndurance()
+	{
+		if (!enduranceUpgrade.CanUpgrade(Orbs)) return;
+		enduranceUpgrade.Up();
+		lightTimer.WaitTime = initialLightWaitTime + (initialLightWaitTime / 2) * enduranceUpgrade.GetLevel();
+	}
+    
+	
 	public void AddInteractable(IPlayerInteractable interactable)
 	{
 		if(interactables.Contains(interactable))
@@ -198,4 +198,45 @@ public partial class Player : CharacterBody2D
 		interactables.Remove(interactable);
 	}
 
+	public void OnLightTimerTimeout()
+	{
+		// Diminuer progressivement l'échelle de la lumière du joueur lorsque le timer expire.
+		vitality -= 0.01f; // Réduire l'échelle de 10%
+
+		// Arrêter le timer lorsque la lumière est épuisée.
+		if (vitality <= 0)
+		{
+			Die();
+		}
+		else
+		{
+			playerLight.TextureScale = vitality;
+		}
+	}
+	
+	public void OnPlayerSpriteAnimationLooped()
+	{
+		if (playerSprite.Animation == "attack_player")
+		{
+			playerSprite.Play("walk_player");
+		}
+	}
+	
+	public void OnOrbPickedUp(Orb orb, float orbVitality)
+	{
+		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
+		vitality = Mathf.Min(vitality + orbVitality, 1);
+		playerLight.TextureScale = vitality;
+	}
+	
+	public void OnMobContact()
+	{
+		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
+		vitality = (float) Mathf.Max(vitality - 0.5, 0);
+		if (vitality <= 0)
+		{
+			Die();
+		}
+		playerLight.TextureScale = vitality;
+	}
 }

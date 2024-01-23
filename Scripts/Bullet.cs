@@ -4,14 +4,22 @@ using System;
 public partial class Bullet : Area2D
 {
 	public Vector2 Direction;
-	[Export]
-	public float Speed = 300;
-	[Export]
-	public float Lifespan = 1f;
-
+	
+	//Vitesse de la balle
+	[Export] public float Speed = 300;
+	
+	// Durée de la vie de la Balle
+	[Export] public float Lifespan = 1f;
+	
+	// Capacité de la balle a trenspercer les ennemies
+	public int Piercing = 0;
+	
+	// Timer gerant la durée de vie de la balle
 	private Timer _timer;
 	
 	private Vector2 PlayerVelocity; // Ajoutez cette variable
+	
+	
 	
 	
 
@@ -20,6 +28,8 @@ public partial class Bullet : Area2D
 		// Détruire le projectile après un certain temps
 		Player player = GetNode<Player>("../Player");
 		PlayerVelocity = player.Velocity;
+
+		Piercing = player.piercingUpgrade.GetLevel();
 		
 		BodyEntered += OnAreaEntered;
 		AreaEntered += OnAreaEntered;
@@ -50,7 +60,15 @@ public partial class Bullet : Area2D
 	{
 		if (body.Name != "Player")
 		{
-			QueueFree();
+			if (Piercing > 0)
+			{
+				Piercing--;
+			}
+			else
+			{
+				QueueFree();
+			} 
+			
 		}
 	}
 	
@@ -58,7 +76,14 @@ public partial class Bullet : Area2D
 	{
 		if (area is Mob)
 		{
-			QueueFree();
+			if (Piercing > 0)
+			{
+				Piercing--;
+			}
+			else
+			{
+				QueueFree();
+			} 
 		}
 	}
 }

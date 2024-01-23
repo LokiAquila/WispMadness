@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://baop74k4pd7kr"]
+[gd_scene load_steps=7 format=3 uid="uid://baop74k4pd7kr"]
 
 [ext_resource type="Script" path="res://Scripts/Orb.cs" id="1_qbpmc"]
 
@@ -15,6 +15,17 @@ fill_to = Vector2(0.831897, 0.163793)
 [sub_resource type="CircleShape2D" id="CircleShape2D_ryhw8"]
 radius = 29.0172
 
+[sub_resource type="Gradient" id="Gradient_pmppw"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qesm7"]
+gradient = SubResource("Gradient_pmppw")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.866379, 0.146552)
+
 [node name="Orb" type="Area2D" groups=["orb"]]
 collision_layer = 8
 script = ExtResource("1_qbpmc")
@@ -28,3 +39,11 @@ texture = SubResource("GradientTexture2D_33dod")
 shape = SubResource("CircleShape2D_ryhw8")
 
 [node name="OrbTimer" type="Timer" parent="."]
+
+[node name="OrbLight" type="PointLight2D" parent="."]
+position = Vector2(1, 1)
+scale = Vector2(2.63202, 2.63202)
+color = Color(0.121569, 0.439216, 0.419608, 1)
+energy = 0.4
+texture = SubResource("GradientTexture2D_qesm7")
+metadata/_edit_lock_ = true

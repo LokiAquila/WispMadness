@@ -8,7 +8,7 @@ public partial class Orb : Area2D
 
     // Duration before the orb disappears
     [Export]
-    public float ExpirationDuration = 6000f;
+    public float ExpirationDuration = 1f;
     // Initial scale of the orb
     [Export]
     public Vector2 InitialScale = new Vector2(1, 1);
