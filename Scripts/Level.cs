@@ -3,7 +3,6 @@ using System;
 
 public partial class Level : Node2D
 {
-
 	private Player player;
 	
 	[Export]
@@ -13,6 +12,10 @@ public partial class Level : Node2D
 	public PackedScene MobScene { get; set; }
 
 	private Timer mobInterval;
+
+	private double Score = 0;
+	private Label ScoreLabel;
+	private bool stopScore { get; set; } = false; //Mettre à true pour stopper le score
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -25,13 +28,22 @@ public partial class Level : Node2D
 		orb.Position = new Vector2(30, 30);
 		orb.OrbPickedUp += OnOrbPickedUp;
 		AddChild(orb);
-
+		
+		ScoreLabel = GetNode<Label>("UI/Score");
+		ScoreLabel.Text = "Score : " + Score;
+		
 		StartGame();
 	}
+	
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.q
 	public override void _Process(double delta)
 	{
+		if (!stopScore)
+		{
+			Score += delta;
+			ScoreLabel.Text = "Score : " + (int)Score;
+		}
 	}
 	
 	private void StartGame()

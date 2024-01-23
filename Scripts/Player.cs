@@ -52,6 +52,7 @@ public partial class Player : CharacterBody2D
 	
 	[Signal]
 	public delegate void PlayerDeathEventHandler(Player player);
+	
 
 	public override void _Ready()
 	{
@@ -131,6 +132,7 @@ public partial class Player : CharacterBody2D
 
 		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
 		playerSprite.Play("attack_player");
+		
 	}
 	
 	public void Die()
