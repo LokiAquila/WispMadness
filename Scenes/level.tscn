@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ch0md7meuanh2"]
+[gd_scene load_steps=3 format=3 uid="uid://ch0md7meuanh2"]
 
 [ext_resource type="TileSet" uid="uid://fjaqhtejdtst" path="res://Texture/TileSet/level.tres" id="1_vsk67"]
-[ext_resource type="PackedScene" uid="uid://clbq0g70h21qw" path="res://Scenes/player.tscn" id="2_7go33"]
-[ext_resource type="PackedScene" path="res://Scenes/bullet.tscn" id="3_7ktas"]
+[ext_resource type="PackedScene" uid="uid://c57vnwee3irx4" path="res://Scenes/player.tscn" id="2_7go33"]
 
 [node name="Level" type="Node2D"]
 
@@ -45,9 +44,10 @@ layer_3/tile_data = PackedInt32Array(3342319, 327686, 5, 3342306, 6, 5, 2949090,
 
 [node name="Player" parent="." instance=ExtResource("2_7go33")]
 position = Vector2(2, -6)
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 collision_mask = 127
 motion_mode = 1
 wall_min_slide_angle = 0.0174533
-Speed = 250.0
-ProjectileScene = ExtResource("3_7ktas")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0.0196078, 0.137255, 1)
