@@ -8,8 +8,7 @@ public partial class Orb : Area2D
 
     // Duration before the orb disappears
     [Export]
-    public float Lifetime = 10.0f;
-
+    public float ExpirationDuration = 6000f;
     // Initial scale of the orb
     [Export]
     public Vector2 InitialScale = new Vector2(1, 1);
@@ -30,7 +29,7 @@ public partial class Orb : Area2D
 
         // Configure the Timer
         Timer orbTimer = GetNode<Timer>("OrbTimer");
-        orbTimer.WaitTime = 0.1f; // Check every 0.1 seconds
+        orbTimer.WaitTime = ExpirationDuration; // Check every 0.1 seconds
         orbTimer.OneShot = false; // The timer runs repeatedly
         orbTimer.Timeout += OnTimerTimeout;
         orbTimer.Start();
@@ -49,17 +48,17 @@ public partial class Orb : Area2D
     private void OnTimerTimeout()
     {
         // Decrease the orb's lifetime and vitality
-        Lifetime -= 0.1f;
-        currentVitality -= InitialVitality / (Lifetime / 0.1f); // Decrease vitality linearly over time
+        currentVitality -= InitialVitality * 0.05f;
 
         // Scale the orb down to visualize its reduced vitality
-        float scaleMultiplier = Lifetime / 10.0f;
-        Scale = InitialScale * scaleMultiplier;
+        // The scale is a proportion of the current vitality to the initial vitality
+        Scale = InitialScale * (currentVitality / InitialVitality);
 
         // Remove the orb when the lifetime expires
-        if (Lifetime <= 0)
+        if (currentVitality <= 0)
         {
             QueueFree();
         }
     }
+
 }

@@ -37,7 +37,7 @@ public partial class Mob : Area2D
         
         if (body == player)
         {
-            EmitSignal(nameof(MobContactPlayerEventHandler), this); // Émettre le signal
+            EmitSignal(nameof(MobContactPlayer), this); // Émettre le signal
             QueueFree();
         }
     }
