@@ -24,6 +24,7 @@ LoadingScreen="*res://Scenes/loading_screen.tscn"
 
 [display]
 
+window/size/mode=3
 mouse_cursor/custom_image="res://Texture/cursor.png"
 
 [dotnet]

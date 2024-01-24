@@ -11,6 +11,8 @@ public partial class Reaper : Mob // Héritage de la classe Mob
     private double timeSinceLastAttack = 0;
     
     private bool isPlayerInContact = false;
+
+    private PointLight2D mobLight;
     
     [Signal]
     public delegate void BossKilledEventHandler();
@@ -19,6 +21,8 @@ public partial class Reaper : Mob // Héritage de la classe Mob
     {
         mobSprites = GetNode<AnimatedSprite2D>("MobSprites");
         player = GetNode<Player>("../Player");
+        
+        mobLight = GetNode<PointLight2D>("MobLight");
         
         currentHealth = maxHealth;
         Damage = 0.2f;
@@ -72,8 +76,18 @@ public partial class Reaper : Mob // Héritage de la classe Mob
     {
         if (area is Bullet)
         {
+            var t = GetTree().CreateTween();
+            t.TweenProperty(mobLight, "color", new Color(1,1,1,1), 0.1);
+            t.TweenProperty(mobLight, "color", new Color(1,0,0,1), 0.1);
+            
             // Gérer la réduction des points de vie
             currentHealth -= 1;
+            if (currentHealth == 10)
+            {
+                Modulate = new Color(1, 0, 0);
+                mobLight.TextureScale = 0.75f;
+                speed = speed * 1.2f;
+            }
             if (currentHealth <= 0)
             {
                 Die();
