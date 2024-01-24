@@ -10,6 +10,9 @@ public partial class Level : Node2D
 	
 	[Export]
 	public PackedScene MobScene { get; set; }
+	
+	[Export]
+	public PackedScene ReaperScene{ get; set; }
 
 	private Timer mobInterval;
 	
@@ -43,8 +46,15 @@ public partial class Level : Node2D
 		orb.OrbPickedUp += OnOrbPickedUp;
 		AddChild(orb);
 		
+		// Spawn first boss Reaper TEST
+		var reaper = ReaperScene.Instantiate<Reaper>();
+		reaper.Position = new Vector2(300, 300);
+		reaper.MobContactPlayer += OnMobContactPlayer;
+		reaper.OrbDropped += OnOrbDropped;
+		AddChild(reaper);
+		
 		ScoreLabel = GetNode<Label>("UI/Score");
-		ScoreLabel.Text = "Score : " + Score;
+		ScoreLabel.Text = "Score : " + (int)Score;
 		
 		nombreOrbesLabel = GetNode<Label>("UI/orbeList/nombreOrbe");
 		nombreOrbesLabel.Text = player.Orbs.ToString();
@@ -58,11 +68,9 @@ public partial class Level : Node2D
 		levelPiercingLabel.Text = "0";
 		levelEnduranceLabel.Text = "0";
 		
-		
-		
-		
 		StartGame();
 	}
+	
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.q
 	public override void _Process(double delta)
@@ -100,8 +108,6 @@ public partial class Level : Node2D
 	{
 		mobInterval.Autostart = false;
 		mobInterval.Stop();
-		
-
 	}
 	
 	private void OnOrbDropped(Vector2 position)
@@ -117,14 +123,13 @@ public partial class Level : Node2D
 		player.OnOrbPickedUp(orb, currentVitality);
 	}
 	
-	private void OnMobContactPlayer(Mob mob)
+	private void OnMobContactPlayer(Mob mob, float damage)
 	{
-		player.OnMobContact();
+		player.OnMobContact(damage);
 	}
 	
 	private void _on_player_nombre_obres_changed(int nombreOrbes)
 	{
-		GD.Print("a");
 		nombreOrbesLabel.Text = nombreOrbes.ToString();
 	}
 	

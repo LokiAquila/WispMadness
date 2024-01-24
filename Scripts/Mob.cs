@@ -4,13 +4,14 @@ using System;
 public partial class Mob : Area2D
 {
     [Export]
-    private float speed = 100.0f;
-    private Player player;
-    private AnimatedSprite2D mobSprites;
+    protected float speed = 100.0f;
+    protected Player player;
+    protected AnimatedSprite2D mobSprites;
+    protected float Damage = 0.5f;
     private CollisionShape2D mobCollision;
 
     [Signal]
-    public delegate void MobContactPlayerEventHandler(Mob mob);
+    public delegate void MobContactPlayerEventHandler(Mob mob, float damage);
     
     [Signal]
     public delegate void OrbDroppedEventHandler(Vector2 position);
@@ -39,7 +40,6 @@ public partial class Mob : Area2D
         else
         {
             Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
-            // Inversez la direction en multipliant par -1
             direction *= -1;
             GlobalPosition += direction * speed * (float)delta;
         }
@@ -64,17 +64,16 @@ public partial class Mob : Area2D
 
     }
 
-    private void OnBodyEntered(Node2D body)
+    protected void OnBodyEntered(Node2D body)
     {
-        
         if (body == player)
         {
-            CallDeferred("emit_signal", nameof(MobContactPlayer), this);
+            CallDeferred("emit_signal", nameof(MobContactPlayer), this, Damage);
             Die();
         }
     }
 
-    private void OnAreaEntered(Node2D area)
+    protected void OnAreaEntered(Node2D area)
     {
         if (area is Bullet)
         {

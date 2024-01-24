@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsgjcwrxql4g6"]
+
+[ext_resource type="Texture2D" uid="uid://4f6of61rpuo2" path="res://Autres/fond.png" id="1_fxeia"]
+[ext_resource type="Script" path="res://Scripts/replay_menu.cs" id="1_obryq"]
+[ext_resource type="FontFile" uid="uid://pibow3vgibxa" path="res://font/pixelart.ttf" id="2_jq25d"]
+
+[sub_resource type="Theme" id="Theme_6nj0m"]
+default_font = ExtResource("2_jq25d")
+default_font_size = 45
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_obryq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fxeia")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -20.0
+offset_right = 34.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Score" type="Label" parent="VBoxContainer"]
+modulate = Color(0.137255, 0.317647, 1, 1)
+layout_mode = 2
+theme = SubResource("Theme_6nj0m")
+text = "Score : 0"
+
+[node name="PlayAgain" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play Again"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/PlayAgain" to="." method="_on_play_again_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
