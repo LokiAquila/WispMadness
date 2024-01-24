@@ -11,7 +11,7 @@ public partial class Mob : Area2D
     private CollisionShape2D mobCollision;
 
     [Signal]
-    public delegate void MobContactPlayerEventHandler(Mob mob);
+    public delegate void MobContactPlayerEventHandler(Mob mob, float damage);
     
     [Signal]
     public delegate void OrbDroppedEventHandler(Vector2 position);

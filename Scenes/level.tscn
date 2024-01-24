@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ch0md7meuanh2"]
+[gd_scene load_steps=9 format=3 uid="uid://ch0md7meuanh2"]
 
 [ext_resource type="Script" path="res://Scripts/Level.cs" id="1_ag8dc"]
 [ext_resource type="TileSet" uid="uid://fjaqhtejdtst" path="res://Texture/TileSet/level.tres" id="1_vsk67"]
@@ -69,9 +69,3 @@ position = Vector2(-368, 1083)
 position = Vector2(1, -182)
 
 [node name="UI" parent="." instance=ExtResource("7_1gol6")]
-
-[connection signal="EnduranceUpgraded" from="Player" to="." method="_on_player_endurance_upgraded"]
-[connection signal="FireRateUpgraded" from="Player" to="." method="_on_player_fire_rate_upgraded"]
-[connection signal="NombreObresChanged" from="Player" to="." method="_on_player_nombre_obres_changed"]
-[connection signal="PiercingUpgraded" from="Player" to="." method="_on_player_piercing_upgraded"]
-[connection signal="SpeedUpgraded" from="Player" to="." method="_on_player_speed_upgraded"]
