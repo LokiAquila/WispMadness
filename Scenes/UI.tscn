@@ -3,6 +3,7 @@
 [ext_resource type="FontFile" uid="uid://pibow3vgibxa" path="res://font/pixelart.ttf" id="1_obi63"]
 [ext_resource type="Script" path="res://Scripts/PauseMenu.cs" id="1_suaqv"]
 [ext_resource type="Texture2D" uid="uid://bck6pphhcfeu2" path="res://Sprites/Orbe_1.png" id="2_rqege"]
+[ext_resource type="Texture2D" uid="uid://f0mdbylckrin" path="res://Sprites/orbes_seule.png" id="2_nfkyn"]
 [ext_resource type="Texture2D" uid="uid://cgy64ax3wi6vr" path="res://Texture/augment/augment_1.png" id="3_82pes"]
 [ext_resource type="Theme" path="res://font/theme.tres" id="3_fh52u"]
 [ext_resource type="Texture2D" uid="uid://c8q2mavgwky22" path="res://Texture/augment/augment2.png" id="4_4ydf4"]
@@ -56,7 +57,8 @@ grow_vertical = 0
 [node name="spriteOrbe" type="TextureRect" parent="orbeList"]
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("2_rqege")
+texture = ExtResource("2_nfkyn")
+expand_mode = 2
 
 [node name="nombreOrbe" type="Label" parent="orbeList"]
 layout_mode = 2

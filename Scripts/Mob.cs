@@ -84,7 +84,7 @@ public partial class Mob : Area2D
     protected void Die()
     {
         var chance = GD.Randi() % 10 + 1;
-        if (chance == 10)
+        if (chance >= 7)
         {
             CallDeferred("emit_signal", nameof(OrbDropped), Position);
         }
