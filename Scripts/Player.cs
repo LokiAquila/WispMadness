@@ -25,7 +25,7 @@ public partial class Player : CharacterBody2D
 	
 	private PointLight2D playerLight;
 	private AnimatedSprite2D playerSprite;
-	private Timer lightTimer;
+	public Timer lightTimer;
 	public Camera2D camera;
 	
 	

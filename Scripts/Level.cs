@@ -153,6 +153,7 @@ public partial class Level : Node2D
 		peaceTimer.Start();
 		stopScore = true;
 		mobInterval.Paused = true;
+		player.lightTimer.Paused = true;
 		ScoreLabel.Text = "Score : " + (int)Score + " (Freeze : Peace Time)";
 	}
 
@@ -161,6 +162,7 @@ public partial class Level : Node2D
 		peaceTimer.Stop();
 		stopScore = false;
 		mobInterval.Paused = false;
+		player.lightTimer.Paused = false;
 	}
 
 	private void OnBossKilled()
