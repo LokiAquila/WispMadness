@@ -16,7 +16,7 @@ public class Upgrade
     public bool CanUpgrade(int money)
     {
         if (price > money) return false;
-        return (level >= levelMax);
+        return !(level >= levelMax);
     }
 
     public void Up()
@@ -34,5 +34,10 @@ public class Upgrade
     public int GetLevel()
     {
         return level;
+    }
+    
+    public int GetPrice()
+    {
+        return price;
     }
 }
