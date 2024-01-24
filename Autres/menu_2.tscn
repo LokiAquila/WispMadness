@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://g6mhobjeusio"]
+[gd_scene load_steps=9 format=3 uid="uid://d25t234roldon"]
 
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_mhbmo"]
 [ext_resource type="Texture2D" uid="uid://4f6of61rpuo2" path="res://Autres/fond.png" id="2_woj4m"]
@@ -21,8 +21,6 @@ size_flags_vertical = 4
 script = ExtResource("1_mhbmo")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-texture_filter = 1
-texture_repeat = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -17,6 +17,10 @@ boot_splash/bg_color=Color(0, 0, 0, 0)
 boot_splash/image="res://Autres/aquila_logo.png"
 config/icon="res://Autres/aquila_logo.png"
 
+[autoload]
+
+LoadingScreen="*res://Scenes/loading_screen.tscn"
+
 [dotnet]
 
 project/assembly_name="CGJ24"
