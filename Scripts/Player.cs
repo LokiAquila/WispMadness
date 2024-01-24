@@ -36,7 +36,7 @@ public partial class Player : CharacterBody2D
 	// Déplacement du joueur.
 	private Vector2 _screenSize; // Size of the game window.
 
-	public int Orbs = 0; 
+	public int Orbs = 500; 
 
 	public Upgrade piercingUpgrade;
 	
@@ -53,6 +53,22 @@ public partial class Player : CharacterBody2D
 	
 	[Signal]
 	public delegate void PlayerDeathEventHandler(Player player);
+	
+	[Signal]
+	public delegate void NombreObresChangedEventHandler(int nombreOrbes);
+	
+	[Signal]
+	public delegate void FireRateUpgradedEventHandler(int fireRateLevel);
+	
+	[Signal]
+	public delegate void SpeedUpgradedEventHandler(int speedLevel);
+	
+	[Signal]
+	public delegate void PiercingUpgradedEventHandler(int piercingLevel);
+	
+	[Signal]
+	public delegate void EnduranceUpgradedEventHandler(int enduranceLevel);
+	
 
 	public override void _Ready()
 	{
@@ -93,7 +109,7 @@ public partial class Player : CharacterBody2D
 		if (!in_menu)
 		{
 			Vector2 direction =  Input.GetVector("Gauche", "Droite", "Haut", "Bas");
-			Velocity = direction * (Speed + speedUpgrade.GetLevel() * 50);
+			Velocity = direction * (Speed + speedUpgrade.GetLevel() * 10);
 			MoveAndSlide();
 		}
 	}
@@ -132,6 +148,7 @@ public partial class Player : CharacterBody2D
 
 		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
 		playerSprite.Play("attack_player");
+		
 	}
 	
 	public void Die()
@@ -153,17 +170,26 @@ public partial class Player : CharacterBody2D
 	{
 		if (!piercingUpgrade.CanUpgrade(Orbs)) return;
 		piercingUpgrade.Up();
+		Orbs -= piercingUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(PiercingUpgraded), piercingUpgrade.GetLevel());
 	}
 	
 	public void UpgradeSpeed()
 	{
 		if (!speedUpgrade.CanUpgrade(Orbs)) return;
 		speedUpgrade.Up();
+		Orbs -= speedUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(SpeedUpgraded), speedUpgrade.GetLevel());
 	}
 	public void UpgradeFireRate()
 	{
 		if (!fireRateUpgrade.CanUpgrade(Orbs)) return;
 		fireRateUpgrade.Up();
+		Orbs -= fireRateUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(FireRateUpgraded), fireRateUpgrade.GetLevel());
 	}
 	
 	public void UpgradeEndurance()
@@ -171,6 +197,9 @@ public partial class Player : CharacterBody2D
 		if (!enduranceUpgrade.CanUpgrade(Orbs)) return;
 		enduranceUpgrade.Up();
 		lightTimer.WaitTime = initialLightWaitTime + (initialLightWaitTime / 2) * enduranceUpgrade.GetLevel();
+		Orbs -= enduranceUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(EnduranceUpgraded), enduranceUpgrade.GetLevel());
 	}
     
 	
@@ -236,6 +265,7 @@ public partial class Player : CharacterBody2D
 		vitality = Mathf.Min(vitality + orbVitality, 1);
 		playerLight.TextureScale = vitality;
 		Orbs++;
+		EmitSignal(nameof(NombreObresChanged), Orbs);
 	}
 	
 	public void OnMobContact()
