@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://g6mhobjeusio"]
+[gd_scene load_steps=12 format=3 uid="uid://g6mhobjeusio"]
 
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_mhbmo"]
 [ext_resource type="Texture2D" uid="uid://4f6of61rpuo2" path="res://Autres/fond.png" id="2_woj4m"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dix4wdcf6p48q" path="res://Sprites/quit_blue2.png" id="8_864i1"]
 [ext_resource type="Texture2D" uid="uid://bejfc0qq5w67q" path="res://Sprites/titre.png" id="9_x2hmf"]
 [ext_resource type="PackedScene" uid="uid://dsb7madfv2wb7" path="res://Scenes/menuoptions.tscn" id="10_bvwks"]
+[ext_resource type="AudioStream" uid="uid://d2l1v3hffr2h5" path="res://Musiques/Main_Theme.wav" id="11_75los"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -92,6 +93,11 @@ texture = ExtResource("9_x2hmf")
 [node name="MenuOptions" parent="." instance=ExtResource("10_bvwks")]
 visible = false
 layout_mode = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_75los")
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="PlayGame/MarginContainer/HBoxContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="PlayGame/MarginContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dsgjcwrxql4g6"]
+[gd_scene load_steps=11 format=3 uid="uid://dsgjcwrxql4g6"]
 
 [ext_resource type="Script" path="res://Scripts/replay_menu.cs" id="1_obryq"]
 [ext_resource type="FontFile" uid="uid://pibow3vgibxa" path="res://font/pixelart.ttf" id="2_jq25d"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bd8vtpvcp4fio" path="res://Sprites/quit_blue.png" id="6_1ht6t"]
 [ext_resource type="Texture2D" uid="uid://mfpv8wfahhr5" path="res://Sprites/option_blue2.png" id="6_rcpyl"]
 [ext_resource type="Texture2D" uid="uid://dix4wdcf6p48q" path="res://Sprites/quit_blue2.png" id="7_s44kh"]
+[ext_resource type="AudioStream" uid="uid://c8wn87cu6i5wd" path="res://Sons/death.wav" id="9_fflwl"]
 
 [sub_resource type="Theme" id="Theme_6nj0m"]
 default_font = ExtResource("2_jq25d")
@@ -67,6 +68,11 @@ texture_pressed = ExtResource("6_rcpyl")
 layout_mode = 2
 texture_normal = ExtResource("6_1ht6t")
 texture_pressed = ExtResource("7_s44kh")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_fflwl")
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="VBoxContainer/PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="tree_entered" from="VBoxContainer/PlayAgain" to="." method="_on_play_again_tree_entered"]

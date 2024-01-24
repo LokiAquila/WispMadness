@@ -14,18 +14,12 @@ public partial class SceneSwitcher : CanvasLayer
 
 	private int state;
 
+	private bool cacheMode;
 	private bool animating;
 	private bool loading;
 
 	public override void _Ready()
 	{
-		if(Instance != null)
-		{
-			QueueFree();
-			return;
-		}
-		
-
 		Instance = this;
 
 		panel = GetNode<Control>("Panel");
@@ -38,8 +32,14 @@ public partial class SceneSwitcher : CanvasLayer
 
 	public override void _Process(double delta)
 	{
-		if(!loading)
+		if(!loading || animating)
 		{
+			return;
+		}
+
+		if(cacheMode)
+		{
+			EndLoading((PackedScene) ResourceLoader.Load(scenePath, null, ResourceLoader.CacheMode.Reuse));
 			return;
 		}
 
@@ -78,7 +78,7 @@ public partial class SceneSwitcher : CanvasLayer
 
 		if(ResourceLoader.HasCached(scenePath))
 		{
-			EndLoading((PackedScene) ResourceLoader.LoadThreadedGet(scenePath));
+			cacheMode = true;
 			return;
 		}
 
