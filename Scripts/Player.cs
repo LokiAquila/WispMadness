@@ -18,12 +18,13 @@ public partial class Player : CharacterBody2D
 	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
 	
 	// Champ de vision actuel du joueur.
-	private float vitality;
+	public float vitality;
 	
 	private PointLight2D playerLight;
 	private AnimatedSprite2D playerSprite;
 	private Timer lightTimer;
 	public Camera2D camera;
+	
 	
 	//Liste des éléments de la carte interactibles par le joueur
 	private readonly List<IPlayerInteractable> interactables = new();
@@ -135,16 +136,17 @@ public partial class Player : CharacterBody2D
 	
 	public void Die()
 	{
+		lightTimer.Autostart = false;
 		lightTimer.Stop();
 		vitality = 0;
-		playerLight.TextureScale = 0;
-		playerSprite.Play("death_player");
+		playerLight.TextureScale = 1;
 		piercingUpgrade.Reset();
 		speedUpgrade.Reset();
 		fireRateUpgrade.Reset();
 		enduranceUpgrade.Reset();
 		
 		EmitSignal(nameof(PlayerDeath), this); // Émettre le signal
+		StartEndGameAnimation();
 	}
 
 	public void UpgradePiercing()
@@ -243,7 +245,22 @@ public partial class Player : CharacterBody2D
 		if (vitality <= 0)
 		{
 			Die();
+			return;
 		}
 		playerLight.TextureScale = vitality;
+	}
+
+	public void StartEndGameAnimation()
+	{
+		in_menu = true;
+		
+		playerLight.TextureScale = 0.5f;
+		
+		playerSprite.Play("death_player");
+        
+		CollisionLayer = 0;
+		CollisionMask = 0;
+		
+		playerSprite.AnimationLooped += Hide;
 	}
 }

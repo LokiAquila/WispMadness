@@ -58,7 +58,10 @@ public partial class Level : Node2D
 
 	private void EndGame(Player player)
 	{
-		// TODO afficher le game over ici
+		mobInterval.Autostart = false;
+		mobInterval.Stop();
+		
+
 	}
 	
 	private void OnOrbDropped(Vector2 position)

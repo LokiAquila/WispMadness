@@ -283,7 +283,7 @@ collision_mask = 99
 script = ExtResource("1_od1k1")
 speed = 50.0
 
-[node name="MobSprites" type="AnimatedSprite2D" parent="."]
+[node name="MobSprites" type="AnimatedSprite2D" parent="." groups=["mob"]]
 sprite_frames = SubResource("SpriteFrames_ija8m")
 animation = &"death_mob"
 
