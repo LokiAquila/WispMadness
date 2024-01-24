@@ -289,6 +289,11 @@ autostart = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3.5, 3.5)
+limit_left = -2200
+limit_top = -500
+limit_right = 1760
+limit_bottom = 1700
+editor_draw_limits = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(0, 120)
