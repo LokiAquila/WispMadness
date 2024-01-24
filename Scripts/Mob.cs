@@ -7,10 +7,11 @@ public partial class Mob : Area2D
     protected float speed = 100.0f;
     protected Player player;
     protected AnimatedSprite2D mobSprites;
-    protected float Damage = 0.5f; 
+    protected float Damage = 0.5f;
+    private CollisionShape2D mobCollision;
 
     [Signal]
-    public delegate void MobContactPlayerEventHandler(Mob mob, float damage);
+    public delegate void MobContactPlayerEventHandler(Mob mob);
     
     [Signal]
     public delegate void OrbDroppedEventHandler(Vector2 position);
@@ -18,7 +19,9 @@ public partial class Mob : Area2D
     public override void _Ready()
     {
         mobSprites = GetNode<AnimatedSprite2D>("MobSprites");
+        mobCollision = GetNode<CollisionShape2D>("MobCollision");
         player = GetNode<Player>("../Player");
+        player.PlayerDeath += OnPlayerDeath;
         
         // Connecter le signal AreaEntered à la méthode OnAreaEntered
         BodyEntered += OnBodyEntered;
@@ -29,9 +32,15 @@ public partial class Mob : Area2D
 
     public override void _Process(double delta)
     {
-        if (player != null)
+        if (player.vitality > 0)
         {
             Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
+            GlobalPosition += direction * speed * (float)delta;
+        }
+        else
+        {
+            Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
+            direction *= -1;
             GlobalPosition += direction * speed * (float)delta;
         }
     }
@@ -57,7 +66,6 @@ public partial class Mob : Area2D
 
     protected void OnBodyEntered(Node2D body)
     {
-        GD.Print("Mais je suis un mob aussi");
         if (body == player)
         {
             CallDeferred("emit_signal", nameof(MobContactPlayer), this, Damage);
@@ -67,7 +75,6 @@ public partial class Mob : Area2D
 
     protected void OnAreaEntered(Node2D area)
     {
-        GD.Print("Mais je suis un mob aussi");
         if (area is Bullet)
         {
             Die();
@@ -82,6 +89,21 @@ public partial class Mob : Area2D
         {
             CallDeferred("emit_signal", nameof(OrbDropped), Position);
         }
-        CallDeferred("free"); // Appel différé pour libérer l'objet
+        
+        mobSprites.Play("death_mob");
+        
+        CollisionLayer = 0;
+        CollisionMask = 0; 
+        
+        mobSprites.AnimationFinished += QueueFree;
+    }
+
+    private void OnPlayerDeath(Player player)
+    {
+        var timer = new Timer();
+        timer.OneShot = true;
+        timer.WaitTime = 3;
+        timer.Timeout += QueueFree;
+        timer.Start();
     }
 }

@@ -18,12 +18,13 @@ public partial class Player : CharacterBody2D
 	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
 	
 	// Champ de vision actuel du joueur.
-	private float vitality;
+	public float vitality;
 	
 	private PointLight2D playerLight;
 	private AnimatedSprite2D playerSprite;
 	private Timer lightTimer;
 	public Camera2D camera;
+	
 	
 	//Liste des éléments de la carte interactibles par le joueur
 	private readonly List<IPlayerInteractable> interactables = new();
@@ -35,7 +36,7 @@ public partial class Player : CharacterBody2D
 	// Déplacement du joueur.
 	private Vector2 _screenSize; // Size of the game window.
 
-	public int Orbs = 0; 
+	public int Orbs = 500; 
 
 	public Upgrade piercingUpgrade;
 	
@@ -52,6 +53,21 @@ public partial class Player : CharacterBody2D
 	
 	[Signal]
 	public delegate void PlayerDeathEventHandler(Player player);
+	
+	[Signal]
+	public delegate void NombreObresChangedEventHandler(int nombreOrbes);
+	
+	[Signal]
+	public delegate void FireRateUpgradedEventHandler(int fireRateLevel);
+	
+	[Signal]
+	public delegate void SpeedUpgradedEventHandler(int speedLevel);
+	
+	[Signal]
+	public delegate void PiercingUpgradedEventHandler(int piercingLevel);
+	
+	[Signal]
+	public delegate void EnduranceUpgradedEventHandler(int enduranceLevel);
 	
 
 	public override void _Ready()
@@ -93,7 +109,7 @@ public partial class Player : CharacterBody2D
 		if (!in_menu)
 		{
 			Vector2 direction =  Input.GetVector("Gauche", "Droite", "Haut", "Bas");
-			Velocity = direction * (Speed + speedUpgrade.GetLevel() * 50);
+			Velocity = direction * (Speed + speedUpgrade.GetLevel() * 10);
 			MoveAndSlide();
 		}
 	}
@@ -137,33 +153,43 @@ public partial class Player : CharacterBody2D
 	
 	public void Die()
 	{
+		lightTimer.Autostart = false;
 		lightTimer.Stop();
 		vitality = 0;
-		playerLight.TextureScale = 0;
-		playerSprite.Play("death_player");
+		playerLight.TextureScale = 1;
 		piercingUpgrade.Reset();
 		speedUpgrade.Reset();
 		fireRateUpgrade.Reset();
 		enduranceUpgrade.Reset();
 		
 		EmitSignal(nameof(PlayerDeath), this); // Émettre le signal
+		StartEndGameAnimation();
 	}
 
 	public void UpgradePiercing()
 	{
 		if (!piercingUpgrade.CanUpgrade(Orbs)) return;
 		piercingUpgrade.Up();
+		Orbs -= piercingUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(PiercingUpgraded), piercingUpgrade.GetLevel());
 	}
 	
 	public void UpgradeSpeed()
 	{
 		if (!speedUpgrade.CanUpgrade(Orbs)) return;
 		speedUpgrade.Up();
+		Orbs -= speedUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(SpeedUpgraded), speedUpgrade.GetLevel());
 	}
 	public void UpgradeFireRate()
 	{
 		if (!fireRateUpgrade.CanUpgrade(Orbs)) return;
 		fireRateUpgrade.Up();
+		Orbs -= fireRateUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(FireRateUpgraded), fireRateUpgrade.GetLevel());
 	}
 	
 	public void UpgradeEndurance()
@@ -171,6 +197,9 @@ public partial class Player : CharacterBody2D
 		if (!enduranceUpgrade.CanUpgrade(Orbs)) return;
 		enduranceUpgrade.Up();
 		lightTimer.WaitTime = initialLightWaitTime + (initialLightWaitTime / 2) * enduranceUpgrade.GetLevel();
+		Orbs -= enduranceUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(EnduranceUpgraded), enduranceUpgrade.GetLevel());
 	}
     
 	
@@ -236,6 +265,7 @@ public partial class Player : CharacterBody2D
 		vitality = Mathf.Min(vitality + orbVitality, 1);
 		playerLight.TextureScale = vitality;
 		Orbs++;
+		EmitSignal(nameof(NombreObresChanged), Orbs);
 	}
 	
 	public void OnMobContact(float damage)
@@ -245,7 +275,22 @@ public partial class Player : CharacterBody2D
 		if (vitality <= 0)
 		{
 			Die();
+			return;
 		}
 		playerLight.TextureScale = vitality;
+	}
+
+	public void StartEndGameAnimation()
+	{
+		in_menu = true;
+		
+		playerLight.TextureScale = 0.5f;
+		
+		playerSprite.Play("death_player");
+        
+		CollisionLayer = 0;
+		CollisionMask = 0;
+		
+		playerSprite.AnimationLooped += Hide;
 	}
 }

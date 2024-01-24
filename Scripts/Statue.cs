@@ -3,12 +3,12 @@ using System;
 
 public partial class Statue : Area2D, IPlayerInteractable
 {
-	
 	private ItemList menu;
 	private Control control;
 	
 	private Player joueur; //Atribué lors de l'interaction
 	private bool in_menu { get; set; } = false;
+	private bool doubleClique = false;
 	public void Interact(Player player)
 	{
 		player.RemoveInteractable(this);
@@ -16,6 +16,11 @@ public partial class Statue : Area2D, IPlayerInteractable
 		player.in_menu = true;
 		in_menu = true;
 		joueur = player;
+		menu.SetItemText(0, " "+joueur.fireRateUpgrade.GetPrice());
+		menu.SetItemText(1, " "+joueur.speedUpgrade.GetPrice());
+		menu.SetItemText(2, " "+joueur.piercingUpgrade.GetPrice());
+		menu.SetItemText(3, " "+joueur.enduranceUpgrade.GetPrice());
+		
 	}
 
 	public string InteractionName
@@ -82,22 +87,37 @@ public partial class Statue : Area2D, IPlayerInteractable
 	
 	public void _on_menu_item_activated(long index)
 	{
-		if (index == 0)
+		if (doubleClique)
 		{
-			GD.Print("You chose the first item");
-			
-		}else if (index == 1)
+			if (index == 0)
+			{
+				GD.Print("Fire Rate Upgrade");
+				joueur.UpgradeFireRate();
+
+			}
+			else if (index == 1)
+			{
+				GD.Print("Speed Upgrade");
+				joueur.UpgradeSpeed();
+
+			}
+			else if (index == 2)
+			{
+				GD.Print("Enemie Piercing");
+				joueur.UpgradePiercing();
+
+			}
+			else if (index == 3)
+			{
+				GD.Print("Light Endurance");
+				joueur.UpgradeEndurance();
+
+			}
+			doubleClique = false;
+		}
+		else
 		{
-			GD.Print("You chose the second item");
-		}else if (index == 2)
-		{
-			GD.Print("You chose the third item");
-		}else if (index == 3)
-		{
-			GD.Print("You chose the fourth item");
-		}else if (index == 4)
-		{
-			GD.Print("You chose the fifth item");
+			doubleClique = true;
 		}
 	}
 }
