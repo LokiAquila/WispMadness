@@ -36,6 +36,11 @@ public class Upgrade
         return level;
     }
     
+    public int GetMaxLevel()
+    {
+        return levelMax;
+    }
+    
     public int GetPrice()
     {
         return price;

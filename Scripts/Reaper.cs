@@ -12,6 +12,9 @@ public partial class Reaper : Mob // Héritage de la classe Mob
     
     private bool isPlayerInContact = false;
     
+    [Signal]
+    public delegate void BossKilledEventHandler();
+    
     public override void _Ready()
     {
         mobSprites = GetNode<AnimatedSprite2D>("MobSprites");
@@ -96,6 +99,7 @@ public partial class Reaper : Mob // Héritage de la classe Mob
     protected new void Die()
     {
         EmitSignal(nameof(OrbDropped), Position);
+        EmitSignal(nameof(BossKilled));
         QueueFree();
     }
 }
