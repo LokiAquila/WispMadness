@@ -20,6 +20,7 @@ config/icon="res://Autres/aquila_logo.png"
 [autoload]
 
 SwitchScene="*res://Scripts/SwitchScene.cs"
+LoadingScreen="*res://Scenes/loading_screen.tscn"
 
 [dotnet]
 
