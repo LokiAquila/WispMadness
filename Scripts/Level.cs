@@ -108,6 +108,9 @@ public partial class Level : Node2D
 	{
 		mobInterval.Autostart = false;
 		mobInterval.Stop();
+		stopScore = true;
+		SwitchScene.Score = (int)Score;
+		
 	}
 	
 	private void OnOrbDropped(Vector2 position)

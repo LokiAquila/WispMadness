@@ -1,8 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsgjcwrxql4g6"]
+[gd_scene load_steps=10 format=3 uid="uid://dsgjcwrxql4g6"]
 
-[ext_resource type="Texture2D" uid="uid://4f6of61rpuo2" path="res://Autres/fond.png" id="1_fxeia"]
 [ext_resource type="Script" path="res://Scripts/replay_menu.cs" id="1_obryq"]
 [ext_resource type="FontFile" uid="uid://pibow3vgibxa" path="res://font/pixelart.ttf" id="2_jq25d"]
+[ext_resource type="Texture2D" uid="uid://mmcb5d5u6wxu" path="res://Sprites/replay_blue.png" id="3_vdlh2"]
+[ext_resource type="Texture2D" uid="uid://d4a4da2rjx5t" path="res://Sprites/replay_blue2.png" id="4_ukqrj"]
+[ext_resource type="Texture2D" uid="uid://b74kv7w36wqbd" path="res://Sprites/option_blue.png" id="5_fejx2"]
+[ext_resource type="Texture2D" uid="uid://bd8vtpvcp4fio" path="res://Sprites/quit_blue.png" id="6_1ht6t"]
+[ext_resource type="Texture2D" uid="uid://mfpv8wfahhr5" path="res://Sprites/option_blue2.png" id="6_rcpyl"]
+[ext_resource type="Texture2D" uid="uid://dix4wdcf6p48q" path="res://Sprites/quit_blue2.png" id="7_s44kh"]
 
 [sub_resource type="Theme" id="Theme_6nj0m"]
 default_font = ExtResource("2_jq25d")
@@ -19,16 +24,11 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_obryq")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_fxeia")
-expand_mode = 1
-stretch_mode = 6
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 647.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -37,31 +37,35 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -34.0
-offset_top = -20.0
-offset_right = 34.0
-offset_bottom = 20.0
+offset_left = -128.0
+offset_top = -260.0
+offset_right = 128.0
+offset_bottom = 260.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Score" type="Label" parent="VBoxContainer"]
-modulate = Color(0.137255, 0.317647, 1, 1)
+modulate = Color(0.266667, 0.658824, 0.85098, 1)
 layout_mode = 2
 theme = SubResource("Theme_6nj0m")
 text = "Score : 0"
 
-[node name="PlayAgain" type="Button" parent="VBoxContainer"]
+[node name="PlayAgain" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
-text = "Play Again"
+texture_normal = ExtResource("3_vdlh2")
+texture_pressed = ExtResource("4_ukqrj")
 
-[node name="Options" type="Button" parent="VBoxContainer"]
+[node name="Options" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
-text = "Options"
+texture_normal = ExtResource("5_fejx2")
+texture_pressed = ExtResource("6_rcpyl")
 
-[node name="Quit" type="Button" parent="VBoxContainer"]
+[node name="Quit" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
-text = "Quit"
+texture_normal = ExtResource("6_1ht6t")
+texture_pressed = ExtResource("7_s44kh")
 
 [connection signal="pressed" from="VBoxContainer/PlayAgain" to="." method="_on_play_again_pressed"]
+[connection signal="tree_entered" from="VBoxContainer/PlayAgain" to="." method="_on_play_again_tree_entered"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
