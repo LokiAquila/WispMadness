@@ -36,6 +36,7 @@ public partial class Mob : Area2D
         {
             Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
             GlobalPosition += direction * speed * (float)delta;
+            mobSprites.FlipH = direction.X > 0;
         }
         else
         {
