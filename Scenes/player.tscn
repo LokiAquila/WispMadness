@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bolv3jqkmpmm1" path="res://Sprites/death_player.png" id="4_62sxl"]
 [ext_resource type="Texture2D" uid="uid://m5c71cr7ktle" path="res://Sprites/interact_input_0.png" id="6_0v6nm"]
 [ext_resource type="Texture2D" uid="uid://rdx3fud6ffmm" path="res://Sprites/interact_input_1.png" id="7_w1v6i"]
-[ext_resource type="AudioStream" uid="uid://cdiv3sigb0meb" path="res://Sons/Fire.wav" id="9_4b4xh"]
 [ext_resource type="AudioStream" uid="uid://d2l1v3hffr2h5" path="res://Musiques/Main_Theme.wav" id="8_rrlff"]
+[ext_resource type="AudioStream" uid="uid://cdiv3sigb0meb" path="res://Sons/Fire.wav" id="9_4b4xh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7elvw"]
 atlas = ExtResource("2_c3dsr")

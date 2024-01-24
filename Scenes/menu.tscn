@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bd8vtpvcp4fio" path="res://Sprites/quit_blue.png" id="7_v11tf"]
 [ext_resource type="Texture2D" uid="uid://dix4wdcf6p48q" path="res://Sprites/quit_blue2.png" id="8_864i1"]
 [ext_resource type="Texture2D" uid="uid://bejfc0qq5w67q" path="res://Sprites/titre.png" id="9_x2hmf"]
-[ext_resource type="PackedScene" path="res://Scenes/menuoptions.tscn" id="10_bvwks"]
+[ext_resource type="PackedScene" uid="uid://dsb7madfv2wb7" path="res://Scenes/menuoptions.tscn" id="10_bvwks"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
