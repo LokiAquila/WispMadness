@@ -6,6 +6,9 @@ using CGJ24.Classes;
 
 public partial class Player : CharacterBody2D
 {
+
+	private Timer deathTimer;
+	// Vitesse de déplacement du joueur.
 	// Vitesse de déplacement du joueur.
 	[Export]
 	public float Speed = 250.0f;
@@ -102,6 +105,11 @@ public partial class Player : CharacterBody2D
 		lightTimer.Timeout += OnLightTimerTimeout;
 		
 		playerSprite.AnimationLooped += OnPlayerSpriteAnimationLooped;
+		
+		deathTimer = new Timer();
+		deathTimer.OneShot = true;
+		deathTimer.Autostart = false;
+		AddChild(deathTimer);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -283,14 +291,23 @@ public partial class Player : CharacterBody2D
 	public void StartEndGameAnimation()
 	{
 		in_menu = true;
-		
 		playerLight.TextureScale = 0.5f;
-		
-		playerSprite.Play("death_player");
-        
 		CollisionLayer = 0;
 		CollisionMask = 0;
+		var t = GetTree().CreateTween();
+		t.TweenProperty(camera, "zoom", new Vector2(10, 10), 0.5);
+
+		deathTimer.WaitTime = 0.7f;
+		deathTimer.Start();
 		
-		playerSprite.AnimationLooped += Hide;
+		deathTimer.Timeout += () =>
+		{
+			playerSprite.Play("death_player");
+			playerSprite.AnimationLooped += () =>
+			{
+				Hide();
+				GetTree().ChangeSceneToFile("res://Scenes/replay_menu.tscn");
+			};
+		};
 	}
 }
