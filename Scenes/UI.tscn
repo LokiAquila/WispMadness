@@ -29,7 +29,7 @@ offset_right = 11.0
 offset_bottom = 16.0
 grow_horizontal = 2
 theme = SubResource("Theme_fkc0o")
-text = "Score : 75"
+text = "Score : 0"
 
 [node name="orbeList" type="HBoxContainer" parent="."]
 anchors_preset = 7
@@ -51,7 +51,7 @@ texture = ExtResource("2_rqege")
 [node name="nombreOrbe" type="Label" parent="orbeList"]
 layout_mode = 2
 theme = SubResource("Theme_56prf")
-text = ": 9"
+text = "0"
 
 [node name="augments" type="HBoxContainer" parent="."]
 modulate = Color(1, 1, 1, 0.478431)
