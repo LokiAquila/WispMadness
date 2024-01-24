@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://c57vnwee3irx4"]
+[gd_scene load_steps=45 format=3 uid="uid://c57vnwee3irx4"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_15b5q"]
 [ext_resource type="PackedScene" uid="uid://bw74et15s0gc3" path="res://Scenes/bullet.tscn" id="2_awsjs"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://m5c71cr7ktle" path="res://Sprites/interact_input_0.png" id="6_0v6nm"]
 [ext_resource type="Texture2D" uid="uid://rdx3fud6ffmm" path="res://Sprites/interact_input_1.png" id="7_w1v6i"]
 [ext_resource type="AudioStream" uid="uid://cdiv3sigb0meb" path="res://Sons/Fire.wav" id="9_4b4xh"]
+[ext_resource type="AudioStream" uid="uid://d2l1v3hffr2h5" path="res://Musiques/Main_Theme.wav" id="8_rrlff"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7elvw"]
 atlas = ExtResource("2_c3dsr")
@@ -290,6 +291,11 @@ autostart = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3.5, 3.5)
+limit_left = -2200
+limit_top = -500
+limit_right = 1760
+limit_bottom = 1700
+editor_draw_limits = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(0, 120)
@@ -324,5 +330,11 @@ size_flags_horizontal = 4
 [node name="BulletSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_4b4xh")
 volume_db = 3.0
+
+[node name="MusiqueJeu" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_rrlff")
+volume_db = 3.0
+autoplay = true
+bus = &"Music"
 
 [connection signal="animation_looped" from="PlayerSprite" to="." method="_on_player_sprite_animation_looped"]

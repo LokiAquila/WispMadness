@@ -18,8 +18,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8w65r")
 masterVolumeSlider = NodePath("Panel/Content/List/VBoxContainer/HBoxContainer/HSlider")
-musicVolumeSlider = NodePath("Panel/Content/List/VBoxContainer/HBoxContainer2/HSlider")
-sfxVolumeSlider = NodePath("Panel/Content/List/VBoxContainer/HBoxContainer3/HSlider")
+musicVolumeSlider = NodePath("Panel/Content/List/VBoxContainer/HBoxContainer3/HSlider")
+sfxVolumeSlider = NodePath("Panel/Content/List/VBoxContainer/HBoxContainer2/HSlider")
 
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 1

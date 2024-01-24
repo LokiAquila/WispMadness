@@ -127,9 +127,9 @@ public partial class Player : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
-		var reelShootingCooldown = shootingCooldown - fireRateUpgrade.GetLevel() * 0.05;
+		var reelShootingCooldown = shootingCooldown - fireRateUpgrade.GetLevel() * 0.03;
 		// Vérifiez si le joueur peut tirer en fonction du délai entre les tirs
-		if (Input.IsActionJustPressed("Attaque") && shootingTimer >= shootingCooldown && !in_menu)
+		if (Input.IsActionJustPressed("Attaque") && shootingTimer >= reelShootingCooldown && !in_menu)
 		{
 			Shoot();
 			shootingTimer = 0;	 // Réinitialisez le compteur de temps après avoir tiré
@@ -300,9 +300,9 @@ public partial class Player : CharacterBody2D
 		CollisionLayer = 0;
 		CollisionMask = 0;
 		var t = GetTree().CreateTween();
-		t.TweenProperty(camera, "zoom", new Vector2(10, 10), 0.5);
+		t.TweenProperty(camera, "zoom", new Vector2(10, 10), 1);
 
-		deathTimer.WaitTime = 0.7f;
+		deathTimer.WaitTime = 1.3f;
 		deathTimer.Start();
 		
 		deathTimer.Timeout += () =>
