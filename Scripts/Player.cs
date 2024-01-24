@@ -295,9 +295,9 @@ public partial class Player : CharacterBody2D
 		CollisionLayer = 0;
 		CollisionMask = 0;
 		var t = GetTree().CreateTween();
-		t.TweenProperty(camera, "zoom", new Vector2(10, 10), 0.5);
+		t.TweenProperty(camera, "zoom", new Vector2(10, 10), 1);
 
-		deathTimer.WaitTime = 0.7f;
+		deathTimer.WaitTime = 1.3f;
 		deathTimer.Start();
 		
 		deathTimer.Timeout += () =>
