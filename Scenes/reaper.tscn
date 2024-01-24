@@ -1,0 +1,141 @@
+[gd_scene load_steps=20 format=3 uid="uid://cim1lo63nxyn1"]
+
+[ext_resource type="Script" path="res://Scripts/Reaper.cs" id="1_40c0j"]
+[ext_resource type="Texture2D" uid="uid://b26u3xqmxq60k" path="res://Sprites/angeldeadAttak.png" id="2_h8ogs"]
+[ext_resource type="Texture2D" uid="uid://bqkq4kifbrch4" path="res://Sprites/angeldeadMove.png" id="3_c5p1v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7knq"]
+atlas = ExtResource("2_h8ogs")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkoxw"]
+atlas = ExtResource("2_h8ogs")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tsev"]
+atlas = ExtResource("2_h8ogs")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukcen"]
+atlas = ExtResource("2_h8ogs")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dpjm"]
+atlas = ExtResource("2_h8ogs")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pt3ux"]
+atlas = ExtResource("2_h8ogs")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwdrs"]
+atlas = ExtResource("3_c5p1v")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uijku"]
+atlas = ExtResource("3_c5p1v")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w58cb"]
+atlas = ExtResource("3_c5p1v")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krkfx"]
+atlas = ExtResource("3_c5p1v")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_358k2"]
+atlas = ExtResource("3_c5p1v")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn8qe"]
+atlas = ExtResource("3_c5p1v")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5vt06"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7knq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rkoxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tsev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukcen")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5dpjm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pt3ux")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwdrs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uijku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w58cb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krkfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_358k2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qn8qe")
+}],
+"loop": true,
+"name": &"moove",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vst7c"]
+size = Vector2(28.9191, 29.4684)
+
+[sub_resource type="Gradient" id="Gradient_0d61k"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fh3tv"]
+gradient = SubResource("Gradient_0d61k")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.866379, 0.146552)
+
+[node name="Reaper" type="Area2D" groups=["boss", "mob"]]
+scale = Vector2(1.58, 1.58)
+collision_layer = 2
+collision_mask = 99
+script = ExtResource("1_40c0j")
+speed = 150.0
+
+[node name="MobSprites" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.02222, 1)
+sprite_frames = SubResource("SpriteFrames_5vt06")
+animation = &"attack"
+frame_progress = 0.345181
+
+[node name="MobCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0.632911, 0.949367)
+scale = Vector2(0.525254, 0.794671)
+shape = SubResource("RectangleShape2D_vst7c")
+
+[node name="MobLight" type="PointLight2D" parent="."]
+position = Vector2(1, 1)
+scale = Vector2(2.63202, 2.63202)
+color = Color(0.701961, 0.0980392, 0.247059, 1)
+energy = 1.22
+texture = SubResource("GradientTexture2D_fh3tv")
+texture_scale = 0.5
+metadata/_edit_lock_ = true

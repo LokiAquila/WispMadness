@@ -4,51 +4,71 @@ using System;
 public partial class Reaper : Mob // Héritage de la classe Mob
 {
     [Export]
-    private int maxHealth = 50;
+    private int maxHealth = 25;
     private int currentHealth;
     [Export]
-    private double attackInterval = 2.0; // Intervalle entre les attaques en secondes
+    private double attackInterval = 1; // Intervalle entre les attaques en secondes
     private double timeSinceLastAttack = 0;
-
+    
+    private bool isPlayerInContact = false;
     
     [Signal]
-    public delegate void MobContactPlayerEventHandler(Mob mob);
+    public delegate void BossKilledEventHandler();
     
-    [Signal]
-    public delegate void OrbDroppedEventHandler(Vector2 position);
     public override void _Ready()
     {
-        base._Ready(); // Appel de la méthode _Ready de la classe parente
+        mobSprites = GetNode<AnimatedSprite2D>("MobSprites");
+        player = GetNode<Player>("../Player");
+        
         currentHealth = maxHealth;
+        Damage = 0.2f;
+        
         BodyEntered += OnBodyEntered;
+        BodyExited += OnBodyExited;
+        
         AreaEntered += OnAreaEntered;
+        mobSprites.AnimationLooped += OnReaperAnimationLooped;
+        mobSprites.Play("moove");
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta); // Appel de la méthode _Process de la classe parente
         
+        
         // Gérer l'intervalle d'attaque
         if (timeSinceLastAttack > 0)
         {
             timeSinceLastAttack -= delta;
         }
+        else if(isPlayerInContact)
+        {
+            AttackPlayer();
+        }
     }
 
-    private void OnBodyEntered(Node2D body)
+    private new void OnBodyEntered(Node2D body)
     {
         if (body is Player)
         {
+            isPlayerInContact = true;
             if (timeSinceLastAttack <= 0)
             {
                 // Effectuer l'attaque
                 AttackPlayer();
-                timeSinceLastAttack = attackInterval;
             }
         }
     }
+    
+    private void OnBodyExited(Node2D body)
+    {
+        if (body is Player)
+        {
+            isPlayerInContact = false; // Marquer le Player comme n'étant plus en contact
+        }
+    }
 
-    private void OnAreaEntered(Node2D area)
+    private new void OnAreaEntered(Node2D area)
     {
         if (area is Bullet)
         {
@@ -60,15 +80,26 @@ public partial class Reaper : Mob // Héritage de la classe Mob
             }
         }
     }
+    
+    public void OnReaperAnimationLooped()
+    {
+        if (mobSprites.Animation == "attack")
+        {
+            mobSprites.Play("moove");
+        }
+    }
 
     private void AttackPlayer()
     {
-        EmitSignal(nameof(MobContactPlayer), this); // Émettre le signal
+        mobSprites.Play("attack");
+        timeSinceLastAttack = attackInterval;
+        EmitSignal(nameof(MobContactPlayer), this, Damage); // Émettre le signal
     }
 
     protected new void Die()
     {
         EmitSignal(nameof(OrbDropped), Position);
+        EmitSignal(nameof(BossKilled));
         QueueFree();
     }
 }

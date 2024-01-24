@@ -1,0 +1,122 @@
+[gd_scene load_steps=11 format=3 uid="uid://dndfri6n7uucj"]
+
+[ext_resource type="FontFile" uid="uid://pibow3vgibxa" path="res://font/pixelart.ttf" id="1_obi63"]
+[ext_resource type="Texture2D" uid="uid://bck6pphhcfeu2" path="res://Sprites/Orbe_1.png" id="2_rqege"]
+[ext_resource type="Texture2D" uid="uid://cgy64ax3wi6vr" path="res://Texture/augment/augment_1.png" id="3_82pes"]
+[ext_resource type="Theme" uid="uid://bxqhvreoryjva" path="res://font/theme.tres" id="3_fh52u"]
+[ext_resource type="Texture2D" uid="uid://c8q2mavgwky22" path="res://Texture/augment/augment2.png" id="4_4ydf4"]
+[ext_resource type="Texture2D" uid="uid://cheixui6080v" path="res://Texture/augment/augment_3.png" id="5_a4vkf"]
+[ext_resource type="Texture2D" uid="uid://ci6y4uxkjejet" path="res://Texture/augment/augment_4.png" id="6_7kkvq"]
+
+[sub_resource type="Theme" id="Theme_fkc0o"]
+default_font = ExtResource("1_obi63")
+default_font_size = 45
+
+[sub_resource type="Theme" id="Theme_56prf"]
+default_font = ExtResource("1_obi63")
+default_font_size = 45
+
+[sub_resource type="Theme" id="Theme_apf6b"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Score" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -9.0
+offset_right = 11.0
+offset_bottom = 16.0
+grow_horizontal = 2
+theme = SubResource("Theme_fkc0o")
+text = "Score : 0"
+
+[node name="orbeList" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="spriteOrbe" type="TextureRect" parent="orbeList"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2_rqege")
+
+[node name="nombreOrbe" type="Label" parent="orbeList"]
+layout_mode = 2
+theme = SubResource("Theme_56prf")
+text = "0"
+
+[node name="augments" type="HBoxContainer" parent="."]
+modulate = Color(1, 1, 1, 0.478431)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_right = 154.0
+grow_vertical = 0
+theme = SubResource("Theme_apf6b")
+alignment = 1
+
+[node name="augment1" type="VBoxContainer" parent="augments"]
+layout_mode = 2
+
+[node name="augment1T" type="Label" parent="augments/augment1"]
+layout_mode = 2
+theme = ExtResource("3_fh52u")
+text = "0
+"
+horizontal_alignment = 1
+
+[node name="augment1S" type="TextureRect" parent="augments/augment1"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+texture = ExtResource("3_82pes")
+
+[node name="augment2" type="VBoxContainer" parent="augments"]
+layout_mode = 2
+
+[node name="augment2T" type="Label" parent="augments/augment2"]
+layout_mode = 2
+theme = ExtResource("3_fh52u")
+text = "0"
+horizontal_alignment = 1
+
+[node name="augment2S" type="TextureRect" parent="augments/augment2"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+texture = ExtResource("4_4ydf4")
+
+[node name="augment3" type="VBoxContainer" parent="augments"]
+layout_mode = 2
+
+[node name="augment3T" type="Label" parent="augments/augment3"]
+layout_mode = 2
+theme = ExtResource("3_fh52u")
+text = "0"
+horizontal_alignment = 1
+
+[node name="augment3S" type="TextureRect" parent="augments/augment3"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+texture = ExtResource("5_a4vkf")
+
+[node name="augment4" type="VBoxContainer" parent="augments"]
+layout_mode = 2
+
+[node name="augment4T" type="Label" parent="augments/augment4"]
+layout_mode = 2
+theme = ExtResource("3_fh52u")
+text = "0"
+horizontal_alignment = 1
+
+[node name="augment4S" type="TextureRect" parent="augments/augment4"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+texture = ExtResource("6_7kkvq")

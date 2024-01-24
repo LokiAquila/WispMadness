@@ -40,7 +40,6 @@ position = Vector2(-0.5, 24)
 shape = SubResource("RectangleShape2D_1wesx")
 
 [node name="Control" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = -49.0
@@ -70,13 +69,13 @@ same_column_width = true
 fixed_column_width = 18
 icon_mode = 0
 icon_scale = 0.5
-item_0/text = "50"
+item_0/text = "0"
 item_0/icon = ExtResource("3_rvrmn")
-item_1/text = "80"
+item_1/text = "0"
 item_1/icon = ExtResource("4_735mw")
-item_2/text = "20"
+item_2/text = "0"
 item_2/icon = ExtResource("5_mnkag")
-item_3/text = "35"
+item_3/text = "0"
 item_3/icon = ExtResource("6_3rddi")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://g6mhobjeusio"]
+[gd_scene load_steps=12 format=3 uid="uid://g6mhobjeusio"]
 
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_mhbmo"]
 [ext_resource type="Texture2D" uid="uid://4f6of61rpuo2" path="res://Autres/fond.png" id="2_woj4m"]
@@ -8,6 +8,19 @@
 [ext_resource type="Texture2D" uid="uid://df1ul0nboua08" path="res://Sprites/button_option_down.png" id="6_sr13w"]
 [ext_resource type="Texture2D" uid="uid://blinv6xwyycod" path="res://Sprites/button_quit_up.png" id="7_626jk"]
 [ext_resource type="Texture2D" uid="uid://bh4tmydqjtshi" path="res://Sprites/button_quit_down.png" id="8_06wb3"]
+[ext_resource type="AudioStream" uid="uid://d2l1v3hffr2h5" path="res://Musiques/Main_Theme.wav" id="9_tj1pi"]
+
+[sub_resource type="Gradient" id="Gradient_k81q0"]
+offsets = PackedFloat32Array(0, 0.232143, 0.636905, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.446082, 0.446082, 0.446082, 1, 0.158472, 0.158472, 0.158472, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_co1j0"]
+gradient = SubResource("Gradient_k81q0")
+width = 400
+height = 400
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.866379, 0.146552)
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -83,6 +96,33 @@ grow_vertical = 2
 texture_normal = ExtResource("7_626jk")
 texture_pressed = ExtResource("8_06wb3")
 texture_hover = ExtResource("8_06wb3")
+
+[node name="MusiqueLevel" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_tj1pi")
+volume_db = 3.0
+autoplay = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.337255, 0.337255, 0.337255, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PlayerLight" type="PointLight2D" parent="MarginContainer"]
+scale = Vector2(2, 2)
+color = Color(0, 0.305882, 0.305882, 1)
+energy = 4.0
+range_z_max = 1
+texture = SubResource("GradientTexture2D_co1j0")
 
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Options" to="." method="_on_options_pressed"]

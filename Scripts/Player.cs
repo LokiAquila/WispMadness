@@ -6,6 +6,9 @@ using CGJ24.Classes;
 
 public partial class Player : CharacterBody2D
 {
+
+	private Timer deathTimer;
+	// Vitesse de déplacement du joueur.
 	// Vitesse de déplacement du joueur.
 	[Export]
 	public float Speed = 250.0f;
@@ -18,12 +21,13 @@ public partial class Player : CharacterBody2D
 	private double shootingTimer = 0; // Compteur de temps pour suivre le délai entre les tirs
 	
 	// Champ de vision actuel du joueur.
-	private float vitality;
+	public float vitality;
 	
 	private PointLight2D playerLight;
 	private AnimatedSprite2D playerSprite;
-	private Timer lightTimer;
+	public Timer lightTimer;
 	public Camera2D camera;
+	
 	
 	//Liste des éléments de la carte interactibles par le joueur
 	private readonly List<IPlayerInteractable> interactables = new();
@@ -52,13 +56,29 @@ public partial class Player : CharacterBody2D
 	
 	[Signal]
 	public delegate void PlayerDeathEventHandler(Player player);
+	
+	[Signal]
+	public delegate void NombreObresChangedEventHandler(int nombreOrbes);
+	
+	[Signal]
+	public delegate void FireRateUpgradedEventHandler(int fireRateLevel, int fireRateLevelMax);
+	
+	[Signal]
+	public delegate void SpeedUpgradedEventHandler(int speedLevel, int speedLevelMax);
+	
+	[Signal]
+	public delegate void PiercingUpgradedEventHandler(int piercingLevel, int piercingLevelMax);
+	
+	[Signal]
+	public delegate void EnduranceUpgradedEventHandler(int enduranceLevel, int enduranceLevelMax);
+	
 
 	public override void _Ready()
 	{
-		piercingUpgrade = new Upgrade(5, 0, 5);
-		speedUpgrade = new Upgrade(5, 0, 5);
-		fireRateUpgrade = new Upgrade(5, 0, 5);
-		enduranceUpgrade = new Upgrade(5, 0, 5);
+		piercingUpgrade = new Upgrade(5, 0, 3);
+		speedUpgrade = new Upgrade(1, 0, 5);
+		fireRateUpgrade = new Upgrade(2, 0, 5);
+		enduranceUpgrade = new Upgrade(1, 0, 10);
 		
 		// Récupérer les éléments de la scene
 		_screenSize = GetViewportRect().Size;
@@ -85,6 +105,11 @@ public partial class Player : CharacterBody2D
 		lightTimer.Timeout += OnLightTimerTimeout;
 		
 		playerSprite.AnimationLooped += OnPlayerSpriteAnimationLooped;
+		
+		deathTimer = new Timer();
+		deathTimer.OneShot = true;
+		deathTimer.Autostart = false;
+		AddChild(deathTimer);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -92,7 +117,7 @@ public partial class Player : CharacterBody2D
 		if (!in_menu)
 		{
 			Vector2 direction =  Input.GetVector("Gauche", "Droite", "Haut", "Bas");
-			Velocity = direction * (Speed + speedUpgrade.GetLevel() * 50);
+			Velocity = direction * (Speed + speedUpgrade.GetLevel() * 10);
 			MoveAndSlide();
 		}
 	}
@@ -131,37 +156,48 @@ public partial class Player : CharacterBody2D
 
 		projectile.Direction = directionToMouse; // Direction basée sur la position de la souris
 		playerSprite.Play("attack_player");
+		
 	}
 	
 	public void Die()
 	{
+		lightTimer.Autostart = false;
 		lightTimer.Stop();
 		vitality = 0;
-		playerLight.TextureScale = 0;
-		playerSprite.Play("death_player");
+		playerLight.TextureScale = 1;
 		piercingUpgrade.Reset();
 		speedUpgrade.Reset();
 		fireRateUpgrade.Reset();
 		enduranceUpgrade.Reset();
 		
 		EmitSignal(nameof(PlayerDeath), this); // Émettre le signal
+		StartEndGameAnimation();
 	}
 
 	public void UpgradePiercing()
 	{
 		if (!piercingUpgrade.CanUpgrade(Orbs)) return;
 		piercingUpgrade.Up();
+		Orbs -= piercingUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(PiercingUpgraded), piercingUpgrade.GetLevel(), piercingUpgrade.GetMaxLevel());
 	}
 	
 	public void UpgradeSpeed()
 	{
 		if (!speedUpgrade.CanUpgrade(Orbs)) return;
 		speedUpgrade.Up();
+		Orbs -= speedUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(SpeedUpgraded), speedUpgrade.GetLevel(), speedUpgrade.GetMaxLevel());
 	}
 	public void UpgradeFireRate()
 	{
 		if (!fireRateUpgrade.CanUpgrade(Orbs)) return;
 		fireRateUpgrade.Up();
+		Orbs -= fireRateUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(FireRateUpgraded), fireRateUpgrade.GetLevel(), fireRateUpgrade.GetMaxLevel());
 	}
 	
 	public void UpgradeEndurance()
@@ -169,6 +205,9 @@ public partial class Player : CharacterBody2D
 		if (!enduranceUpgrade.CanUpgrade(Orbs)) return;
 		enduranceUpgrade.Up();
 		lightTimer.WaitTime = initialLightWaitTime + (initialLightWaitTime / 2) * enduranceUpgrade.GetLevel();
+		Orbs -= enduranceUpgrade.GetPrice();
+		EmitSignal(nameof(NombreObresChanged), Orbs);
+		EmitSignal(nameof(EnduranceUpgraded), enduranceUpgrade.GetLevel(), enduranceUpgrade.GetMaxLevel());
 	}
     
 	
@@ -234,16 +273,41 @@ public partial class Player : CharacterBody2D
 		vitality = Mathf.Min(vitality + orbVitality, 1);
 		playerLight.TextureScale = vitality;
 		Orbs++;
+		EmitSignal(nameof(NombreObresChanged), Orbs);
 	}
 	
-	public void OnMobContact()
+	public void OnMobContact(float damage)
 	{
 		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
-		vitality = (float) Mathf.Max(vitality - 0.5, 0);
+		vitality = Mathf.Max(vitality - damage, 0);
 		if (vitality <= 0)
 		{
 			Die();
+			return;
 		}
 		playerLight.TextureScale = vitality;
+	}
+
+	public void StartEndGameAnimation()
+	{
+		in_menu = true;
+		playerLight.TextureScale = 0.5f;
+		CollisionLayer = 0;
+		CollisionMask = 0;
+		var t = GetTree().CreateTween();
+		t.TweenProperty(camera, "zoom", new Vector2(10, 10), 0.5);
+
+		deathTimer.WaitTime = 0.7f;
+		deathTimer.Start();
+		
+		deathTimer.Timeout += () =>
+		{
+			playerSprite.Play("death_player");
+			playerSprite.AnimationLooped += () =>
+			{
+				Hide();
+				GetTree().ChangeSceneToFile("res://Scenes/replay_menu.tscn");
+			};
+		};
 	}
 }
