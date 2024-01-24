@@ -21,7 +21,6 @@ public partial class Mob : Area2D
         mobSprites = GetNode<AnimatedSprite2D>("MobSprites");
         mobCollision = GetNode<CollisionShape2D>("MobCollision");
         player = GetNode<Player>("../Player");
-        player.PlayerDeath += OnPlayerDeath;
         
         // Connecter le signal AreaEntered à la méthode OnAreaEntered
         BodyEntered += OnBodyEntered;
@@ -96,14 +95,5 @@ public partial class Mob : Area2D
         CollisionMask = 0; 
         
         mobSprites.AnimationFinished += QueueFree;
-    }
-
-    private void OnPlayerDeath(Player player)
-    {
-        var timer = new Timer();
-        timer.OneShot = true;
-        timer.WaitTime = 3;
-        timer.Timeout += QueueFree;
-        timer.Start();
     }
 }
