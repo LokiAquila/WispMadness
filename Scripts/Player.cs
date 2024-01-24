@@ -50,6 +50,8 @@ public partial class Player : CharacterBody2D
 	public Upgrade enduranceUpgrade;
 
 	private double initialLightWaitTime;
+
+	private AudioStreamPlayer2D bulletSound;
 	
 	[Export]
 	public bool in_menu { get; set; } = false;
@@ -75,6 +77,7 @@ public partial class Player : CharacterBody2D
 
 	public override void _Ready()
 	{
+		bulletSound = GetNode<AudioStreamPlayer2D>("BulletSound");
 		piercingUpgrade = new Upgrade(5, 0, 3);
 		speedUpgrade = new Upgrade(1, 0, 5);
 		fireRateUpgrade = new Upgrade(2, 0, 5);
@@ -146,6 +149,8 @@ public partial class Player : CharacterBody2D
 	
 	private void Shoot()
 	{
+		bulletSound.Play();
+		
 		var projectile = ProjectileScene.Instantiate<Bullet>();
 		GetParent().AddChild(projectile); // Ajoute le projectile à la scène
 		projectile.Position = Position; // Démarre le projectile à la position du joueur

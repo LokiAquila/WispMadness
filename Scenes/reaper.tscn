@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://cim1lo63nxyn1"]
+[gd_scene load_steps=21 format=3 uid="uid://cim1lo63nxyn1"]
 
 [ext_resource type="Script" path="res://Scripts/Reaper.cs" id="1_40c0j"]
 [ext_resource type="Texture2D" uid="uid://b26u3xqmxq60k" path="res://Sprites/angeldeadAttak.png" id="2_h8ogs"]
 [ext_resource type="Texture2D" uid="uid://bqkq4kifbrch4" path="res://Sprites/angeldeadMove.png" id="3_c5p1v"]
+[ext_resource type="AudioStream" uid="uid://bout07tvqdpuq" path="res://Sons/ThomasLaFaucheuse.wav" id="4_fp04u"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7knq"]
 atlas = ExtResource("2_h8ogs")
@@ -139,3 +140,8 @@ energy = 1.22
 texture = SubResource("GradientTexture2D_fh3tv")
 texture_scale = 0.5
 metadata/_edit_lock_ = true
+
+[node name="ReaperTrainSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_fp04u")
+volume_db = 3.0
+autoplay = true
