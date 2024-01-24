@@ -33,9 +33,13 @@ public partial class Level : Node2D
 	private int entitiesSpawned = 0;
 	private int nbActiveBoss = 0;
 	
+	private ColorRect pauseMenu;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		pauseMenu = GetNode<ColorRect>("UI/pause");
+		
 		player = GetNode<Player>("Player");
 		player.PlayerDeath += EndGame;
 		player.NombreObresChanged += _on_player_nombre_obres_changed;
@@ -85,6 +89,12 @@ public partial class Level : Node2D
 		{
 			Score += delta;
 			ScoreLabel.Text = "Score : " + (int)Score;
+		}
+
+		if (Input.IsActionJustPressed("Pause"))
+		{
+			pauseMenu.Visible = !pauseMenu.Visible;
+			GetTree().Paused = !GetTree().Paused;
 		}
 	}
 	

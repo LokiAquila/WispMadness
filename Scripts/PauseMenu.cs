@@ -1,9 +1,10 @@
 using Godot;
+using Godot.Collections;
 
 public partial class PauseMenu : CanvasLayer
 {
-
-	private ColorRect panel;
+	
+	private ColorRect pause;
 	private VBoxContainer pauseMenu;
 	private Control options;
 
@@ -11,35 +12,33 @@ public partial class PauseMenu : CanvasLayer
 
 	public override void _Ready()
     {
-        panel = GetNode<ColorRect>("Panel");
-        pauseMenu = panel.GetNode<VBoxContainer>("PauseMenu");
+	    pauseMenu = GetNode<VBoxContainer>("pause/PauseMenu");
         options = GetNode<Control>("MenuOptions");
+        pause = GetNode<ColorRect>("pause");
 
         Button backButton = options.GetNode<Button>("Panel/Content/List/Button/Back");
 		backButton.Pressed += OnBackButtonPressed;
     }
-
-	public void SetOpened(bool opened)
-	{
-		panel.Visible = opened;
-
-		if(!opened && optionOpened)
-		{
-			OnBackButtonPressed();
-		}
-
-	}
 	
-	private void OnResumePressed()
+
+	private void _on_resume_pressed()
 	{
-		GameManager.Instance.SetPause(false);
+		GetTree().Paused = false;
+		pause.Visible = false;
 	}
 
-	private void OnOptionsPressed()
+	private void _on_options_pressed()
 	{
 		optionOpened = true;
 		pauseMenu.Visible = false;
 		options.Visible = true;
+	}
+
+	private void _on_quit_pressed()
+	{
+		GetTree().Paused = false;
+		pause.Visible = false;
+		SceneSwitcher.Instance.SwitchScene("res://Scenes/menu.tscn");
 	}
 	
 	private void OnBackButtonPressed()

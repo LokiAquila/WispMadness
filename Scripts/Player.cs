@@ -91,6 +91,7 @@ public partial class Player : CharacterBody2D
 		playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
 		labelContainer = GetNode<HBoxContainer>("MarginContainer/Interact");
 		interactLabel = labelContainer.GetNode<Label>("Label");
+
 		
 		// Initialiser le champ de vision du joueur.
 		vitality = 1; // 1 pour 100% 

@@ -24,6 +24,7 @@ public partial class SceneSwitcher : CanvasLayer
 			QueueFree();
 			return;
 		}
+		
 
 		Instance = this;
 
@@ -117,7 +118,6 @@ public partial class SceneSwitcher : CanvasLayer
 			default:
 				break;
 		}
-
 		
 	}
 

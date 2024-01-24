@@ -6,7 +6,7 @@ public partial class Statue : Area2D, IPlayerInteractable
 	private ItemList menu;
 	private Control control;
 	
-	private Player joueur; //Atribué lors de l'interaction
+	private Player joueur; 
 	private bool in_menu { get; set; } = false;
 	private bool doubleClique = false;
 	public void Interact(Player player)
@@ -49,10 +49,6 @@ public partial class Statue : Area2D, IPlayerInteractable
 	
 	public override void _Process(double delta)
 	{
-		if(Input.IsActionPressed("Quitter") && in_menu)
-		{
-			quitterMenu();
-		}
 
 		if (in_menu && Input.IsMouseButtonPressed(MouseButton.Left))
 		{
