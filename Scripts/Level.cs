@@ -187,7 +187,7 @@ public partial class Level : Node2D
 	
 	private void OnOrbPickedUp(Orb orb, float currentVitality)
 	{
-		player.OnOrbPickedUp(orb, currentVitality);
+		player.OnOrbPickedUp(currentVitality);
 	}
 	
 	private void OnMobContactPlayer(Mob mob, float damage)
