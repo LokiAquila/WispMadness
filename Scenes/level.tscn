@@ -1,14 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://ch0md7meuanh2"]
+[gd_scene load_steps=9 format=3 uid="uid://ch0md7meuanh2"]
 
 [ext_resource type="Script" path="res://Scripts/Level.cs" id="1_ag8dc"]
 [ext_resource type="TileSet" uid="uid://fjaqhtejdtst" path="res://Texture/TileSet/level.tres" id="1_vsk67"]
 [ext_resource type="PackedScene" uid="uid://c57vnwee3irx4" path="res://Scenes/player.tscn" id="2_7go33"]
-[ext_resource type="PackedScene" uid="uid://baop74k4pd7kr" path="res://Scenes/orb.tscn" id="2_s0tw3"]
+[ext_resource type="PackedScene" uid="uid://c1clvem61hs1g" path="res://Scenes/orb.tscn" id="2_s0tw3"]
 [ext_resource type="PackedScene" uid="uid://bpg8q8x8adh1" path="res://Scenes/mob.tscn" id="3_y7d13"]
-[ext_resource type="PackedScene" uid="uid://cim1lo63nxyn1" path="res://Scenes/reaper.tscn" id="4_8076v"]
+[ext_resource type="PackedScene" path="res://Scenes/reaper.tscn" id="4_8076v"]
 [ext_resource type="PackedScene" uid="uid://cwmv8ty6orcke" path="res://Scenes/statue.tscn" id="6_8k4yi"]
-[ext_resource type="PackedScene" uid="uid://dndfri6n7uucj" path="res://Scenes/UI.tscn" id="7_1gol6"]
-[ext_resource type="AudioStream" uid="uid://d2l1v3hffr2h5" path="res://Musiques/Main_Theme.wav" id="9_jceqg"]
+[ext_resource type="PackedScene" path="res://Scenes/UI.tscn" id="7_1gol6"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ag8dc")
