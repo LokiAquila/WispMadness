@@ -272,7 +272,7 @@ public partial class Player : CharacterBody2D
 		}
 	}
 	
-	public void OnOrbPickedUp(Orb orb, float orbVitality)
+	public void OnOrbPickedUp(float orbVitality)
 	{
 		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
 		vitality = Mathf.Min(vitality + orbVitality, 1);

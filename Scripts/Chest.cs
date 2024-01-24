@@ -6,6 +6,7 @@ public partial class Chest : StaticBody2D, IPlayerInteractable
 
 	private AnimatedSprite2D sprite;
 	private Area2D interactZone;
+	private Player player;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -36,7 +37,7 @@ public partial class Chest : StaticBody2D, IPlayerInteractable
 			return;
 		}
 
-		Player player = (Player) body;
+		player = (Player) body;
 		player.RemoveInteractable(this);
 	}
 
@@ -55,7 +56,10 @@ public partial class Chest : StaticBody2D, IPlayerInteractable
 			return;
 		}
 
-		GD.Print("You opened a chest!");
+		if (player != null)
+		{
+			player.OnOrbPickedUp(1);
+		}
 	}
 
 	public string InteractionName
