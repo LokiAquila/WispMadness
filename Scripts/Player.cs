@@ -25,7 +25,7 @@ public partial class Player : CharacterBody2D
 	
 	private PointLight2D playerLight;
 	private AnimatedSprite2D playerSprite;
-	private Timer lightTimer;
+	public Timer lightTimer;
 	public Camera2D camera;
 	
 	
@@ -39,7 +39,7 @@ public partial class Player : CharacterBody2D
 	// Déplacement du joueur.
 	private Vector2 _screenSize; // Size of the game window.
 
-	public int Orbs = 500; 
+	public int Orbs = 0; 
 
 	public Upgrade piercingUpgrade;
 	
@@ -61,24 +61,24 @@ public partial class Player : CharacterBody2D
 	public delegate void NombreObresChangedEventHandler(int nombreOrbes);
 	
 	[Signal]
-	public delegate void FireRateUpgradedEventHandler(int fireRateLevel);
+	public delegate void FireRateUpgradedEventHandler(int fireRateLevel, int fireRateLevelMax);
 	
 	[Signal]
-	public delegate void SpeedUpgradedEventHandler(int speedLevel);
+	public delegate void SpeedUpgradedEventHandler(int speedLevel, int speedLevelMax);
 	
 	[Signal]
-	public delegate void PiercingUpgradedEventHandler(int piercingLevel);
+	public delegate void PiercingUpgradedEventHandler(int piercingLevel, int piercingLevelMax);
 	
 	[Signal]
-	public delegate void EnduranceUpgradedEventHandler(int enduranceLevel);
+	public delegate void EnduranceUpgradedEventHandler(int enduranceLevel, int enduranceLevelMax);
 	
 
 	public override void _Ready()
 	{
-		piercingUpgrade = new Upgrade(5, 0, 5);
-		speedUpgrade = new Upgrade(5, 0, 5);
-		fireRateUpgrade = new Upgrade(5, 0, 5);
-		enduranceUpgrade = new Upgrade(5, 0, 5);
+		piercingUpgrade = new Upgrade(5, 0, 3);
+		speedUpgrade = new Upgrade(1, 0, 5);
+		fireRateUpgrade = new Upgrade(2, 0, 5);
+		enduranceUpgrade = new Upgrade(1, 0, 10);
 		
 		// Récupérer les éléments de la scene
 		_screenSize = GetViewportRect().Size;
@@ -180,7 +180,7 @@ public partial class Player : CharacterBody2D
 		piercingUpgrade.Up();
 		Orbs -= piercingUpgrade.GetPrice();
 		EmitSignal(nameof(NombreObresChanged), Orbs);
-		EmitSignal(nameof(PiercingUpgraded), piercingUpgrade.GetLevel());
+		EmitSignal(nameof(PiercingUpgraded), piercingUpgrade.GetLevel(), piercingUpgrade.GetMaxLevel());
 	}
 	
 	public void UpgradeSpeed()
@@ -189,7 +189,7 @@ public partial class Player : CharacterBody2D
 		speedUpgrade.Up();
 		Orbs -= speedUpgrade.GetPrice();
 		EmitSignal(nameof(NombreObresChanged), Orbs);
-		EmitSignal(nameof(SpeedUpgraded), speedUpgrade.GetLevel());
+		EmitSignal(nameof(SpeedUpgraded), speedUpgrade.GetLevel(), speedUpgrade.GetMaxLevel());
 	}
 	public void UpgradeFireRate()
 	{
@@ -197,7 +197,7 @@ public partial class Player : CharacterBody2D
 		fireRateUpgrade.Up();
 		Orbs -= fireRateUpgrade.GetPrice();
 		EmitSignal(nameof(NombreObresChanged), Orbs);
-		EmitSignal(nameof(FireRateUpgraded), fireRateUpgrade.GetLevel());
+		EmitSignal(nameof(FireRateUpgraded), fireRateUpgrade.GetLevel(), fireRateUpgrade.GetMaxLevel());
 	}
 	
 	public void UpgradeEndurance()
@@ -207,7 +207,7 @@ public partial class Player : CharacterBody2D
 		lightTimer.WaitTime = initialLightWaitTime + (initialLightWaitTime / 2) * enduranceUpgrade.GetLevel();
 		Orbs -= enduranceUpgrade.GetPrice();
 		EmitSignal(nameof(NombreObresChanged), Orbs);
-		EmitSignal(nameof(EnduranceUpgraded), enduranceUpgrade.GetLevel());
+		EmitSignal(nameof(EnduranceUpgraded), enduranceUpgrade.GetLevel(), enduranceUpgrade.GetMaxLevel());
 	}
     
 	

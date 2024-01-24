@@ -35,6 +35,7 @@ public partial class Mob : Area2D
         {
             Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
             GlobalPosition += direction * speed * (float)delta;
+            mobSprites.FlipH = direction.X > 0;
         }
         else
         {
@@ -47,10 +48,10 @@ public partial class Mob : Area2D
     public Vector2 GetRandomPositionOnCameraEdge(Vector2 globalPosition)
     {
         // Générer un angle aléatoire entre 0 et 2*PI
-        float angle = (float)GD.Randf() * 2.0f * Mathf.Pi;
+        float angle = GD.Randf() * 2.0f * Mathf.Pi;
     
         // Générer une distance aléatoire entre 0 et le rayon spécifié
-        float distance = 1000;
+        float distance = 400;
 
         // Calculer les coordonnées x et y en utilisant l'angle et la distance
         float x = distance * Mathf.Cos(angle);
@@ -83,7 +84,6 @@ public partial class Mob : Area2D
     protected void Die()
     {
         var chance = GD.Randi() % 10 + 1;
-        GD.Print(chance);
         if (chance == 10)
         {
             CallDeferred("emit_signal", nameof(OrbDropped), Position);
