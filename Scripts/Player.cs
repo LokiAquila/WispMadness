@@ -238,10 +238,10 @@ public partial class Player : CharacterBody2D
 		Orbs++;
 	}
 	
-	public void OnMobContact()
+	public void OnMobContact(float damage)
 	{
 		// Augmenter la vitalité du joueur sans dépasser la vitalité maximale
-		vitality = (float) Mathf.Max(vitality - 0.5, 0);
+		vitality = Mathf.Max(vitality - damage, 0);
 		if (vitality <= 0)
 		{
 			Die();

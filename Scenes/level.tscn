@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c57vnwee3irx4" path="res://Scenes/player.tscn" id="2_7go33"]
 [ext_resource type="PackedScene" uid="uid://baop74k4pd7kr" path="res://Scenes/orb.tscn" id="2_s0tw3"]
 [ext_resource type="PackedScene" uid="uid://bpg8q8x8adh1" path="res://Scenes/mob.tscn" id="3_y7d13"]
+[ext_resource type="PackedScene" uid="uid://cim1lo63nxyn1" path="res://Scenes/reaper.tscn" id="4_8076v"]
 [ext_resource type="PackedScene" uid="uid://cwmv8ty6orcke" path="res://Scenes/statue.tscn" id="6_8k4yi"]
 [ext_resource type="PackedScene" uid="uid://dndfri6n7uucj" path="res://Scenes/UI.tscn" id="7_1gol6"]
 
@@ -12,6 +13,7 @@
 script = ExtResource("1_ag8dc")
 OrbScene = ExtResource("2_s0tw3")
 MobScene = ExtResource("3_y7d13")
+ReaperScene = ExtResource("4_8076v")
 
 [node name="Map" type="TileMap" parent="."]
 tile_set = ExtResource("1_vsk67")

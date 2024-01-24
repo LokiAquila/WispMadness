@@ -1,24 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://cim1lo63nxyn1"]
+[gd_scene load_steps=20 format=3 uid="uid://cim1lo63nxyn1"]
 
-[ext_resource type="Script" path="res://Scripts/Mob.cs" id="1_fqh0l"]
+[ext_resource type="Script" path="res://Scripts/Reaper.cs" id="1_40c0j"]
 [ext_resource type="Texture2D" uid="uid://b26u3xqmxq60k" path="res://Sprites/angeldeadAttak.png" id="2_h8ogs"]
 [ext_resource type="Texture2D" uid="uid://bqkq4kifbrch4" path="res://Sprites/angeldeadMove.png" id="3_c5p1v"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_daqfh"]
-atlas = ExtResource("2_h8ogs")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p8n5g"]
-atlas = ExtResource("2_h8ogs")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_j51pv"]
-atlas = ExtResource("2_h8ogs")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bf71w"]
-atlas = ExtResource("2_h8ogs")
-region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7knq"]
 atlas = ExtResource("2_h8ogs")
@@ -72,18 +56,6 @@ region = Rect2(32, 64, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_daqfh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p8n5g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j51pv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bf71w")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_p7knq")
 }, {
 "duration": 1.0,
@@ -129,40 +101,41 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sihe3"]
-radius = 15.0
-height = 62.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vst7c"]
+size = Vector2(28.9191, 29.4684)
 
 [sub_resource type="Gradient" id="Gradient_0d61k"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_fh3tv"]
 gradient = SubResource("Gradient_0d61k")
-width = 32
-height = 32
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.866379, 0.146552)
 
-[node name="Mob" type="Area2D"]
-scale = Vector2(0.5, 0.5)
+[node name="Reaper" type="Area2D"]
+scale = Vector2(1.58, 1.58)
 collision_layer = 2
 collision_mask = 99
-script = ExtResource("1_fqh0l")
-speed = 50.0
+script = ExtResource("1_40c0j")
+speed = 150.0
 
 [node name="MobSprites" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.02222, 1)
 sprite_frames = SubResource("SpriteFrames_5vt06")
 animation = &"attack"
-frame_progress = 0.655851
+frame_progress = 0.345181
 
 [node name="MobCollision" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_sihe3")
+position = Vector2(0.632911, 0.949367)
+scale = Vector2(0.525254, 0.794671)
+shape = SubResource("RectangleShape2D_vst7c")
 
 [node name="MobLight" type="PointLight2D" parent="."]
 position = Vector2(1, 1)
 scale = Vector2(2.63202, 2.63202)
 color = Color(0.701961, 0.0980392, 0.247059, 1)
-energy = 0.27
+energy = 1.22
 texture = SubResource("GradientTexture2D_fh3tv")
+texture_scale = 0.5
 metadata/_edit_lock_ = true

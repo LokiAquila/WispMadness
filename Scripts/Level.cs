@@ -3,6 +3,7 @@ using System;
 
 public partial class Level : Node2D
 {
+
 	private Player player;
 	
 	[Export]
@@ -10,6 +11,9 @@ public partial class Level : Node2D
 	
 	[Export]
 	public PackedScene MobScene { get; set; }
+	
+	[Export]
+	public PackedScene ReaperScene{ get; set; }
 
 	private Timer mobInterval;
 
@@ -32,9 +36,15 @@ public partial class Level : Node2D
 		ScoreLabel = GetNode<Label>("UI/Score");
 		ScoreLabel.Text = "Score : " + Score;
 		
+		// Spawn first boss Reaper TEST
+		var reaper = ReaperScene.Instantiate<Reaper>();
+		reaper.Position = new Vector2(300, 300);
+		reaper.MobContactPlayer += OnMobContactPlayer;
+		reaper.OrbDropped += OnOrbDropped;
+		AddChild(reaper);
+		
 		StartGame();
 	}
-	
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.q
 	public override void _Process(double delta)
@@ -86,8 +96,8 @@ public partial class Level : Node2D
 		player.OnOrbPickedUp(orb, currentVitality);
 	}
 	
-	private void OnMobContactPlayer(Mob mob)
+	private void OnMobContactPlayer(Mob mob, float damage)
 	{
-		player.OnMobContact();
+		player.OnMobContact(damage);
 	}
 }
