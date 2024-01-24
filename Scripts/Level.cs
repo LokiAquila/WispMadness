@@ -90,7 +90,6 @@ public partial class Level : Node2D
 	
 	private void StartGame()
 	{
-		SpawnBoss();
 		//Ajout et Configuration du Timer pour géré le Spawn des Mobs
 		mobInterval = new Timer();
 		mobInterval.WaitTime = 0.7;
