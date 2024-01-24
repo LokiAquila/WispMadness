@@ -22,6 +22,10 @@ config/icon="res://Autres/aquila_logo.png"
 SwitchScene="*res://Scripts/SwitchScene.cs"
 LoadingScreen="*res://Scenes/loading_screen.tscn"
 
+[display]
+
+mouse_cursor/custom_image="res://Texture/cursor.png"
+
 [dotnet]
 
 project/assembly_name="CGJ24"

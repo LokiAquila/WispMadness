@@ -19,9 +19,12 @@ public partial class Orb : Area2D
 
     // The current vitality of the orb
     private float currentVitality;
+    
+    protected AnimatedSprite2D orbeSprites;
 
     public override void _Ready()
     {
+        orbeSprites = GetNode<AnimatedSprite2D>("OrbeSprites");
         currentVitality = InitialVitality;
         Scale = InitialScale;
 
@@ -33,6 +36,7 @@ public partial class Orb : Area2D
         orbTimer.OneShot = false; // The timer runs repeatedly
         orbTimer.Timeout += OnTimerTimeout;
         orbTimer.Start();
+        orbeSprites.Play("idle");
     }
 
     private void OnAreaEntered(Node2D body)
