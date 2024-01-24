@@ -262,7 +262,6 @@ frame_1/duration = 1.0
 collision_mask = 17
 script = ExtResource("1_15b5q")
 ProjectileScene = ExtResource("2_awsjs")
-shootingCooldown = 0.0
 metadata/_edit_group_ = true
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
