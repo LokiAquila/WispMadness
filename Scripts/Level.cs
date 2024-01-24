@@ -54,7 +54,7 @@ public partial class Level : Node2D
 		AddChild(reaper);
 		
 		ScoreLabel = GetNode<Label>("UI/Score");
-		ScoreLabel.Text = "Score : " + Score;
+		ScoreLabel.Text = "Score : " + (int)Score;
 		
 		nombreOrbesLabel = GetNode<Label>("UI/orbeList/nombreOrbe");
 		nombreOrbesLabel.Text = player.Orbs.ToString();
@@ -130,7 +130,6 @@ public partial class Level : Node2D
 	
 	private void _on_player_nombre_obres_changed(int nombreOrbes)
 	{
-		GD.Print("a");
 		nombreOrbesLabel.Text = nombreOrbes.ToString();
 	}
 	
