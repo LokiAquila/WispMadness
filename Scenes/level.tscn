@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ch0md7meuanh2"]
+[gd_scene load_steps=10 format=3 uid="uid://ch0md7meuanh2"]
 
 [ext_resource type="Script" path="res://Scripts/Level.cs" id="1_ag8dc"]
 [ext_resource type="TileSet" uid="uid://fjaqhtejdtst" path="res://Texture/TileSet/level.tres" id="1_vsk67"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cim1lo63nxyn1" path="res://Scenes/reaper.tscn" id="4_8076v"]
 [ext_resource type="PackedScene" uid="uid://cwmv8ty6orcke" path="res://Scenes/statue.tscn" id="6_8k4yi"]
 [ext_resource type="PackedScene" uid="uid://dndfri6n7uucj" path="res://Scenes/UI.tscn" id="7_1gol6"]
+[ext_resource type="AudioStream" uid="uid://d2l1v3hffr2h5" path="res://Musiques/Main_Theme.wav" id="9_jceqg"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ag8dc")
@@ -68,6 +69,11 @@ position = Vector2(-368, 1083)
 position = Vector2(1, -182)
 
 [node name="UI" parent="." instance=ExtResource("7_1gol6")]
+
+[node name="MusiqueJeu" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_jceqg")
+volume_db = 3.0
+autoplay = true
 
 [connection signal="body_entered" from="Map/Arbre" to="Map/Arbre" method="_on_body_entered"]
 [connection signal="body_exited" from="Map/Arbre" to="Map/Arbre" method="_on_body_exited"]
