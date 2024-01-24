@@ -15,6 +15,8 @@ public partial class Level : Node2D
 	public PackedScene ReaperScene{ get; set; }
 
 	private Timer mobInterval;
+	private Timer peaceTimer;
+
 	
 	private Label nombreOrbesLabel;
 
@@ -27,6 +29,9 @@ public partial class Level : Node2D
 	private Label levelSpeedLabel;
 	private Label levelPiercingLabel;
 	private Label levelEnduranceLabel;
+
+	private int entitiesSpawned = 0;
+	private int nbActiveBoss = 0;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -40,18 +45,19 @@ public partial class Level : Node2D
 		player.EnduranceUpgraded += _on_player_endurance_upgraded;
 		
 		
+		peaceTimer = new Timer();
+		peaceTimer.WaitTime = 15;
+		peaceTimer.Autostart = false;
+		peaceTimer.Timeout += OnPeaceEnd;
+		AddChild(peaceTimer);
+		
+		
 		// Spawn first Orb TEST
 		var orb = OrbScene.Instantiate<Orb>();
 		orb.Position = new Vector2(30, 30);
 		orb.OrbPickedUp += OnOrbPickedUp;
 		AddChild(orb);
 		
-		// Spawn first boss Reaper TEST
-		var reaper = ReaperScene.Instantiate<Reaper>();
-		reaper.Position = new Vector2(300, 300);
-		reaper.MobContactPlayer += OnMobContactPlayer;
-		reaper.OrbDropped += OnOrbDropped;
-		AddChild(reaper);
 		
 		ScoreLabel = GetNode<Label>("UI/Score");
 		ScoreLabel.Text = "Score : " + (int)Score;
@@ -63,10 +69,10 @@ public partial class Level : Node2D
 		levelSpeedLabel = GetNode<Label>("UI/augments/augment2/augment2T");
 		levelPiercingLabel = GetNode<Label>("UI/augments/augment3/augment3T");
 		levelEnduranceLabel = GetNode<Label>("UI/augments/augment4/augment4T");
-		levelFireRateLabel.Text = "0";
-		levelSpeedLabel.Text = "0";
-		levelPiercingLabel.Text = "0";
-		levelEnduranceLabel.Text = "0";
+		levelFireRateLabel.Text = "0/" + player.fireRateUpgrade.GetMaxLevel();
+		levelSpeedLabel.Text = "0/" + player.speedUpgrade.GetMaxLevel();
+		levelPiercingLabel.Text = "0/" + player.piercingUpgrade.GetMaxLevel();
+		levelEnduranceLabel.Text = "0/" + player.enduranceUpgrade.GetMaxLevel();
 		
 		StartGame();
 	}
@@ -86,28 +92,86 @@ public partial class Level : Node2D
 	{
 		//Ajout et Configuration du Timer pour géré le Spawn des Mobs
 		mobInterval = new Timer();
-		mobInterval.WaitTime = 0.65;
+		mobInterval.WaitTime = 0.7;
 		mobInterval.Autostart = true;
-		mobInterval.Timeout += SpawnMob;
+		mobInterval.Timeout += CalculateWave;
 		AddChild(mobInterval);
-		
 		// Spawn le premier mob
-		SpawnMob();
+		CalculateWave();
 	}
 
+	private void CalculateWave()
+	{
+		if (nbActiveBoss > 0) return;
+		
+		if ((entitiesSpawned + 1) % 30 == 0)
+		{
+			
+			var nbBoss = (entitiesSpawned + 1) / 120 + 1;
+			GD.Print("Boss spawn ! " + nbBoss);
+			for (int i = 0; i < nbBoss; i++)
+			{
+				SpawnBoss();
+			}
+		}
+		else
+		{
+			SpawnMob();
+		}
+	}
+	
 	private void SpawnMob()
 	{
+		entitiesSpawned++;
 		var mob = MobScene.Instantiate<Mob>();
 		mob.Position = mob.GetRandomPositionOnCameraEdge(player.camera.GlobalPosition);
 		mob.MobContactPlayer += OnMobContactPlayer;
 		mob.OrbDropped += OnOrbDropped;
 		AddChild(mob);
 	}
+	
+	private void SpawnBoss()
+	{
+		entitiesSpawned++;
+		nbActiveBoss++;
+		var reaper = ReaperScene.Instantiate<Reaper>();
+		reaper.Position = reaper.GetRandomPositionOnCameraEdge(player.camera.GlobalPosition);
+		reaper.MobContactPlayer += OnMobContactPlayer;
+		reaper.OrbDropped += OnOrbDropped;
+		reaper.BossKilled += OnBossKilled;
+		AddChild(reaper);
+	}
 
 	private void EndGame(Player player)
 	{
 		mobInterval.Autostart = false;
 		mobInterval.Stop();
+	}
+	
+	private void startPeace()
+	{
+		peaceTimer.Start();
+		stopScore = true;
+		mobInterval.Paused = true;
+		player.lightTimer.Paused = true;
+		ScoreLabel.Text = "Score : " + (int)Score + " (Freeze : Peace Time)";
+	}
+
+	private void OnPeaceEnd()
+	{
+		peaceTimer.Stop();
+		stopScore = false;
+		mobInterval.Paused = false;
+		player.lightTimer.Paused = false;
+	}
+
+	private void OnBossKilled()
+	{
+		nbActiveBoss--;
+		if (nbActiveBoss == 0)
+		{
+			startPeace();
+		}
 	}
 	
 	private void OnOrbDropped(Vector2 position)
@@ -133,23 +197,23 @@ public partial class Level : Node2D
 		nombreOrbesLabel.Text = nombreOrbes.ToString();
 	}
 	
-	private void _on_player_fire_rate_upgraded(int fireRateLevel)
+	private void _on_player_fire_rate_upgraded(int level, int maxLevel)
 	{
-		levelFireRateLabel.Text = fireRateLevel.ToString();
+		levelFireRateLabel.Text = level + "/" + maxLevel;
 	}
 	
-	private void _on_player_speed_upgraded(int speedLevel)
+	private void _on_player_speed_upgraded(int level, int maxLevel)
 	{
-		levelSpeedLabel.Text = speedLevel.ToString();
+		levelSpeedLabel.Text = level + "/" + maxLevel;
 	}
 	
-	private void _on_player_piercing_upgraded(int piercingLevel)
+	private void _on_player_piercing_upgraded(int level, int maxLevel)
 	{
-		levelPiercingLabel.Text = piercingLevel.ToString();
+		levelPiercingLabel.Text = level + "/" + maxLevel;
 	}
 	
-	private void _on_player_endurance_upgraded(int enduranceLevel)
+	private void _on_player_endurance_upgraded(int level, int maxLevel)
 	{
-		levelEnduranceLabel.Text = enduranceLevel.ToString();
+		levelEnduranceLabel.Text = level + "/" + maxLevel;
 	}
 }
