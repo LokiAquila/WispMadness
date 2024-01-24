@@ -1,12 +1,50 @@
-[gd_scene load_steps=12 format=3 uid="uid://cwmv8ty6orcke"]
+[gd_scene load_steps=18 format=3 uid="uid://cwmv8ty6orcke"]
 
 [ext_resource type="Script" path="res://Scripts/Statue.cs" id="1_o0qcf"]
-[ext_resource type="Texture2D" uid="uid://kyg5jxhkmvpc" path="res://Texture/map/statue.png" id="1_pc2pd"]
+[ext_resource type="Texture2D" uid="uid://b7ufxyavae6qg" path="res://Sprites/statue_anime.png" id="2_1o25a"]
 [ext_resource type="FontFile" uid="uid://pibow3vgibxa" path="res://font/pixelart.ttf" id="3_64dkj"]
 [ext_resource type="Texture2D" uid="uid://cgy64ax3wi6vr" path="res://Texture/augment/augment_1.png" id="3_rvrmn"]
 [ext_resource type="Texture2D" uid="uid://c8q2mavgwky22" path="res://Texture/augment/augment2.png" id="4_735mw"]
 [ext_resource type="Texture2D" uid="uid://cheixui6080v" path="res://Texture/augment/augment_3.png" id="5_mnkag"]
 [ext_resource type="Texture2D" uid="uid://ci6y4uxkjejet" path="res://Texture/augment/augment_4.png" id="6_3rddi"]
+
+[sub_resource type="Gradient" id="Gradient_ghu10"]
+offsets = PackedFloat32Array(0, 0.666667)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nducf"]
+gradient = SubResource("Gradient_ghu10")
+fill = 1
+fill_from = Vector2(0.491453, 0.478632)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0r5yh"]
+atlas = ExtResource("2_1o25a")
+region = Rect2(0, 0, 48, 81)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvrdc"]
+atlas = ExtResource("2_1o25a")
+region = Rect2(48, 0, 48, 81)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3twk"]
+atlas = ExtResource("2_1o25a")
+region = Rect2(0, 81, 48, 81)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r75ak"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0r5yh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvrdc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3twk")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r7mpn"]
 size = Vector2(32, 26)
@@ -26,8 +64,15 @@ default_font_size = 8
 position = Vector2(73, 51)
 script = ExtResource("1_o0qcf")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_pc2pd")
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -3)
+scale = Vector2(0.752611, 1.1226)
+texture = SubResource("GradientTexture2D_nducf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_r75ak")
+animation = &"idle"
+frame_progress = 0.886244
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 41)

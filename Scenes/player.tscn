@@ -240,12 +240,12 @@ animations = [{
 radius = 11.0
 height = 54.0
 
-[sub_resource type="Gradient" id="Gradient_w357t"]
+[sub_resource type="Gradient" id="Gradient_ryesf"]
 offsets = PackedFloat32Array(0, 0.232143, 0.636905, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0.446082, 0.446082, 0.446082, 1, 0.158472, 0.158472, 0.158472, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_vimxs"]
-gradient = SubResource("Gradient_w357t")
+gradient = SubResource("Gradient_ryesf")
 width = 400
 height = 400
 fill = 1
